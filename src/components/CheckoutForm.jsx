@@ -10,12 +10,12 @@ function CheckoutForm({ closeForm, completeOrder, cartItems, total }) {
   });
 
   const [errors, setErrors] = useState({});
-  const [suggestions, setSuggestions] = useState([]);
+  const [suggestion, setSuggestion] = useState(null);
 
   // Load saved data from localStorage
   useEffect(() => {
-    const savedData = JSON.parse(localStorage.getItem("checkoutForm")) || [];
-    setSuggestions(savedData);
+    const savedData = JSON.parse(localStorage.getItem("checkoutForm")) || null;
+    setSuggestion(savedData);
   }, []);
 
   const handleChange = (e) => {
@@ -34,8 +34,10 @@ function CheckoutForm({ closeForm, completeOrder, cartItems, total }) {
     }
   };
 
-  const handleSuggestionClick = (suggestion) => {
-    setFormData(suggestion);
+  const handleSuggestionClick = () => {
+    if (suggestion) {
+      setFormData(suggestion);
+    }
   };
 
   const validateForm = () => {
@@ -70,9 +72,8 @@ function CheckoutForm({ closeForm, completeOrder, cartItems, total }) {
 
     if (validateForm()) {
       // Store form data in localStorage
-      const updatedSuggestions = [formData, ...suggestions].slice(0, 5); // Keep only the latest 5 entries
-      localStorage.setItem("checkoutForm", JSON.stringify(updatedSuggestions));
-      setSuggestions(updatedSuggestions);
+      localStorage.setItem("checkoutForm", JSON.stringify(formData));
+      setSuggestion(formData);
 
       // Construct product details for WhatsApp message
       const productDetails = cartItems
@@ -119,21 +120,18 @@ function CheckoutForm({ closeForm, completeOrder, cartItems, total }) {
 
         <form onSubmit={handleSubmit} className="p-4">
           <div className="space-y-4">
-            {/* Suggestions */}
-            {suggestions.length > 0 && (
+            {/* Suggestion */}
+            {suggestion && (
               <div className="mb-2">
                 <p className="text-gray-500 text-sm mb-1">
-                  Select previous details:
+                  Use previous details:
                 </p>
-                {suggestions.map((suggestion, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleSuggestionClick(suggestion)}
-                    className="block w-full text-left bg-gray-100 p-2 rounded-md mb-1 hover:bg-gray-200"
-                  >
-                    {suggestion.name} - {suggestion.mobile}
-                  </button>
-                ))}
+                <button
+                  onClick={handleSuggestionClick}
+                  className="block w-full text-left bg-gray-100 p-2 rounded-md mb-1 hover:bg-gray-200"
+                >
+                  {suggestion.name} - {suggestion.mobile}
+                </button>
               </div>
             )}
 
