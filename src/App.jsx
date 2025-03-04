@@ -83,6 +83,10 @@ function App() {
     );
   };
 
+  const clearCart = () => {
+    setCart([]); // Clear the cart by setting it to an empty array
+  };
+
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   console.log("Carts : ", cart);
@@ -99,6 +103,7 @@ function App() {
             closeCart={() => setShowCart(false)}
             removeItem={removeFromCart}
             updateQuantity={updateQuantity}
+            clearCart={clearCart} // Pass clearCart to Cart
           />
         )}
       </main>

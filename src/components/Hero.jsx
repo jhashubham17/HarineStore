@@ -3,7 +3,7 @@ import React from "react";
 
 function Hero() {
   return (
-    <div className="bg-gradient-to-r from-green-700 to-green-700 text-white h-full ">
+    <div className="bg-gradient-to-r from-green-700 to-green-700 text-white h-fit ">
       <div className="container px-4 py-12 md:py-24 flex flex-col md:flex-row justify-center items-center">
         <div className="md:w-1/2 mb-8 md:mb-0 mt-14 flex flex-col">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { X } from "lucide-react";
 import CheckoutForm from "./CheckoutForm";
 
-function Cart({ cartItems, closeCart, removeItem, updateQuantity }) {
+function Cart({ cartItems, closeCart, removeItem, updateQuantity, clearCart }) {
   const [showCheckoutForm, setShowCheckoutForm] = useState(false);
 
   const initiateCheckout = () => {
@@ -36,6 +36,9 @@ function Cart({ cartItems, closeCart, removeItem, updateQuantity }) {
 
     // Open WhatsApp in new tab
     window.open(whatsappUrl, "_blank");
+
+    // Clear the cart after sending the order
+    clearCart();
 
     alert("Thank you for your order! We will process it shortly.");
     closeCart();

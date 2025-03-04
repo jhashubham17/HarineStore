@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
 
 function CheckoutForm({ closeForm, completeOrder, cartItems, total }) {
@@ -10,6 +10,13 @@ function CheckoutForm({ closeForm, completeOrder, cartItems, total }) {
   });
 
   const [errors, setErrors] = useState({});
+  const [suggestions, setSuggestions] = useState([]);
+
+  // Load saved data from localStorage
+  useEffect(() => {
+    const savedData = JSON.parse(localStorage.getItem("checkoutForm")) || [];
+    setSuggestions(savedData);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,6 +32,10 @@ function CheckoutForm({ closeForm, completeOrder, cartItems, total }) {
         [name]: "",
       });
     }
+  };
+
+  const handleSuggestionClick = (suggestion) => {
+    setFormData(suggestion);
   };
 
   const validateForm = () => {
@@ -58,6 +69,11 @@ function CheckoutForm({ closeForm, completeOrder, cartItems, total }) {
     e.preventDefault();
 
     if (validateForm()) {
+      // Store form data in localStorage
+      const updatedSuggestions = [formData, ...suggestions].slice(0, 5); // Keep only the latest 5 entries
+      localStorage.setItem("checkoutForm", JSON.stringify(updatedSuggestions));
+      setSuggestions(updatedSuggestions);
+
       // Construct product details for WhatsApp message
       const productDetails = cartItems
         .map((item) => {
@@ -77,16 +93,13 @@ function CheckoutForm({ closeForm, completeOrder, cartItems, total }) {
       Village: ${formData.village}
       Pincode: ${formData.pincode}
       Products: \n${productDetails}`;
-      // Total Price: ₹${total};
 
       const whatsappUrl = `https://wa.me/9060917383?text=${encodeURIComponent(
         message
       )}`;
 
-      // Open WhatsApp in new tab
       window.open(whatsappUrl, "_blank");
 
-      // Complete the order process
       completeOrder(formData);
     }
   };
@@ -106,6 +119,24 @@ function CheckoutForm({ closeForm, completeOrder, cartItems, total }) {
 
         <form onSubmit={handleSubmit} className="p-4">
           <div className="space-y-4">
+            {/* Suggestions */}
+            {suggestions.length > 0 && (
+              <div className="mb-2">
+                <p className="text-gray-500 text-sm mb-1">
+                  Select previous details:
+                </p>
+                {suggestions.map((suggestion, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleSuggestionClick(suggestion)}
+                    className="block w-full text-left bg-gray-100 p-2 rounded-md mb-1 hover:bg-gray-200"
+                  >
+                    {suggestion.name} - {suggestion.mobile}
+                  </button>
+                ))}
+              </div>
+            )}
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Full Name *
