@@ -1,14 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function ProductCard({ product, addToCart }) {
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedWeight, setSelectedWeight] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const [displayPrice, setDisplayPrice] = useState(product.price);
 
   // Check product category
   const isSoap = product.category === "soap";
   const isWeightedProduct = ["salt", "sugar", "dal"].includes(product.category);
+
+  // Soap price mapping based on size
+  const soapPrices = {
+    "300×20": 415,
+    "270×20": 370,
+    "240×20": 335,
+    "225×20": 300,
+    "190×20": 270,
+    "115×50": 400,
+  };
+
+  // Update price when size changes for soap products
+  useEffect(() => {
+    if (isSoap && selectedSize) {
+      setDisplayPrice(soapPrices[selectedSize]);
+    } else {
+      setDisplayPrice(product.price);
+    }
+  }, [selectedSize, isSoap, product.price]);
 
   // Handle adding product to cart with selections
   const handleAddToCart = () => {
@@ -18,12 +38,13 @@ function ProductCard({ product, addToCart }) {
         return;
       }
 
-      // Add soap to cart with the selected options
+      // Add soap to cart with the selected options and price
       addToCart({
         ...product,
         selectedSize,
         selectedColor,
         quantity,
+        price: soapPrices[selectedSize],
       });
     } else if (isWeightedProduct) {
       if (!selectedWeight) {
@@ -58,7 +79,12 @@ function ProductCard({ product, addToCart }) {
         className="w-full h-48 object-cover"
       />
       <div className="p-4">
-        <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
+        <div className="flex justify-between items-start mb-2">
+          <h3 className="text-lg font-semibold">{product.name}</h3>
+          <div className="text-lg font-bold text-green-700">
+            ₹{displayPrice}
+          </div>
+        </div>
         <p className="text-gray-600 text-sm mb-3">{product.description}</p>
 
         {isSoap ? (
@@ -74,10 +100,12 @@ function ProductCard({ product, addToCart }) {
                 className="w-full p-2 border rounded text-sm"
               >
                 <option value="">Select Size</option>
-                <option value="120/50">120/50</option>
-                <option value="190/20">190/20</option>
-                <option value="270/20">270/20</option>
-                <option value="150/40">150/40</option>
+                <option value="300×20">300×20 - ₹415</option>
+                <option value="270×20">270×20 - ₹370</option>
+                <option value="240×20">240×20 - ₹335</option>
+                <option value="225×20">225×20 - ₹300</option>
+                <option value="190×20">190×20 - ₹270</option>
+                <option value="115×50">110×50 - ₹400</option>
               </select>
             </div>
 
@@ -132,7 +160,7 @@ function ProductCard({ product, addToCart }) {
             >
               <option value="">Select Weight</option>
               <option value="25kg">25kg</option>
-              <option value="50kg">50kg</option>
+              {/* <option value="50kg">50kg</option> */}
             </select>
           </div>
         ) : null}
@@ -160,6 +188,12 @@ function ProductCard({ product, addToCart }) {
             </button>
           </div>
         </div>
+
+        {isSoap && selectedSize && (
+          <div className="mb-3 text-sm text-gray-700">
+            Total: ₹{(displayPrice * quantity).toFixed(2)}
+          </div>
+        )}
 
         <div className="flex justify-end">
           <button

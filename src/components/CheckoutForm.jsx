@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
 
-function CheckoutForm({ closeForm, completeOrder, cartItems, total }) {
+function CheckoutForm({ closeForm, completeOrder, cartItems, totalAmount }) {
   const [formData, setFormData] = useState({
     name: "",
     mobile: "",
@@ -75,32 +75,7 @@ function CheckoutForm({ closeForm, completeOrder, cartItems, total }) {
       localStorage.setItem("checkoutForm", JSON.stringify(formData));
       setSuggestion(formData);
 
-      // Construct product details for WhatsApp message
-      const productDetails = cartItems
-        .map((item) => {
-          if (item.category === "soap") {
-            return `{${item.name} - Qty: ${item.quantity}, Size: ${item.selectedSize}, Color: ${item.selectedColor}}`;
-          } else if (["salt", "sugar", "dal"].includes(item.category)) {
-            return `{${item.name} - Qty: ${item.quantity}, Weight: ${item.selectedWeight}}`;
-          } else {
-            return `{${item.name} - Qty: ${item.quantity}}`;
-          }
-        })
-        .join("\n");
-
-      const message = `New Order:
-      Name: ${formData.name}
-      Mobile: ${formData.mobile}
-      Village: ${formData.village}
-      Pincode: ${formData.pincode}
-      Products: \n${productDetails}`;
-
-      const whatsappUrl = `https://wa.me/9060917383?text=${encodeURIComponent(
-        message
-      )}`;
-
-      window.open(whatsappUrl, "_blank");
-
+      // Pass form data to parent component to handle order completion
       completeOrder(formData);
     }
   };
@@ -127,6 +102,7 @@ function CheckoutForm({ closeForm, completeOrder, cartItems, total }) {
                   Use previous details:
                 </p>
                 <button
+                  type="button"
                   onClick={handleSuggestionClick}
                   className="block w-full text-left bg-gray-100 p-2 rounded-md mb-1 hover:bg-gray-200"
                 >

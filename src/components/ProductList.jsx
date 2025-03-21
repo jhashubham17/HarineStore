@@ -7,8 +7,9 @@ function ProductList({ addToCart }) {
       id: 1,
       name: "Clothing Soap",
       image: "./soap.avif",
-      description: "Natural handmade soap with essential oils",
+      description: "Clothing Washing soap with essential oils",
       category: "soap",
+      // price: 300, // Default price, will be updated based on size selection
     },
     {
       id: 2,
@@ -16,35 +17,40 @@ function ProductList({ addToCart }) {
       image: "./salt.jpeg",
       description: "Pure Himalayan pink salt, rich in minerals",
       category: "salt",
+      price: 250, // Example price for salt
     },
-    {
-      id: 3,
-      name: "Premium Sugar",
-      image: "./sugar.jpg",
-      description: "Fine grain premium quality sugar",
-      category: "sugar",
-    },
-    {
-      id: 4,
-      name: "Organic Toor Dal",
-      image: "./ToorDal.jpeg",
-      description: "Organic yellow split pigeon peas (toor dal)",
-      category: "dal",
-    },
-    {
-      id: 5,
-      name: "Organic Moong Dal",
-      image: "MoongDal.webp",
-      description: "Organic split mung beans (moong dal)",
-      category: "dal",
-    },
-    {
-      id: 6,
-      name: "Premium Salt",
-      image: "./premiumSalt.jpeg",
-      description: "Natural rock salt for cooking",
-      category: "salt",
-    },
+    // {
+    //   id: 3,
+    //   name: "Premium Sugar",
+    //   image: "./sugar.jpg",
+    //   description: "Fine grain premium quality sugar",
+    //   category: "sugar",
+    //   price: 180,
+    // },
+    // {
+    //   id: 4,
+    //   name: "Organic Toor Dal",
+    //   image: "./ToorDal.jpeg",
+    //   description: "Organic yellow split pigeon peas (toor dal)",
+    //   category: "dal",
+    //   price: 220,
+    // },
+    // {
+    //   id: 5,
+    //   name: "Organic Moong Dal",
+    //   image: "MoongDal.webp",
+    //   description: "Organic split mung beans (moong dal)",
+    //   category: "dal",
+    //   price: 240,
+    // },
+    // {
+    //   id: 6,
+    //   name: "Premium Salt",
+    //   image: "./premiumSalt.jpeg",
+    //   description: "Natural rock salt for cooking",
+    //   category: "salt",
+    //   price: 280,
+    // },
   ];
 
   const [filters, setFilters] = useState({
@@ -52,7 +58,12 @@ function ProductList({ addToCart }) {
     searchTerm: "",
   });
 
-  const categories = ["all", "soap", "salt", "sugar", "dal"];
+  const categories = [
+    "all",
+    "soap",
+    "salt",
+    //  "sugar", "dal"
+  ];
 
   const filteredProducts = products.filter((product) => {
     const categoryMatch =

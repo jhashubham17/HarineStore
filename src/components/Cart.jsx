@@ -9,37 +9,55 @@ function Cart({ cartItems, closeCart, removeItem, updateQuantity, clearCart }) {
     setShowCheckoutForm(true);
   };
 
+  // Calculate the total price of all items in the cart
+  const calculateTotal = () => {
+    return cartItems.reduce((total, item) => {
+      const itemPrice = item.price || 0;
+      return total + itemPrice * item.quantity;
+    }, 0);
+  };
+
   const completeOrder = (customerData) => {
-    // Construct order details for WhatsApp message
+    // Construct product details for WhatsApp message with numbering
     const productDetails = cartItems
-      .map((item) => {
+      .map((item, index) => {
+        const itemTotal = (item.price * item.quantity).toFixed(2);
+        const pricePerUnit = item.price.toFixed(2);
+        const itemNumber = index + 1; // Add 1 to make it 1-based instead of 0-based
+
         if (item.category === "soap") {
-          return `${item.name} - Qty: ${item.quantity}, Size: ${item.selectedSize}, Color: ${item.selectedColor}`;
+          return `${itemNumber}. ${item.name} - Qty: ${item.quantity}, Size: ${item.selectedSize}, Color: ${item.selectedColor}, Price: ₹${pricePerUnit}/each, Total: ₹${itemTotal}`;
         } else if (["salt", "sugar", "dal"].includes(item.category)) {
-          return `${item.name} - Qty: ${item.quantity}, Weight: ${item.selectedWeight}`;
+          return `${itemNumber}. ${item.name} - Qty: ${item.quantity}, Weight: ${item.selectedWeight}, Price: ₹${pricePerUnit}/pack, Total: ₹${itemTotal}`;
         } else {
-          return `${item.name} - Qty: ${item.quantity}`;
+          return `${itemNumber}. ${item.name} - Qty: ${item.quantity}, Price: ₹${pricePerUnit}/unit, Total: ₹${itemTotal}`;
         }
       })
-      .join("%0A");
+      .join("\n");
 
-    const message = `New Order:%0A
-    Name: ${customerData.name}%0A
-    Mobile: ${customerData.mobile}%0A
-    Village: ${customerData.village}%0A
-    Pincode: ${customerData.pincode}%0A
-    Products:%0A${productDetails}`;
+    const totalAmount = calculateTotal().toFixed(2);
 
+    // Create WhatsApp message with proper line breaks and formatting
+    const message = `New Order:
+Name: ${customerData.name}
+Mobile: ${customerData.mobile}
+Village: ${customerData.village}
+Pincode: ${customerData.pincode}
+Products:
+${productDetails}
+
+Total Order Amount: ₹${totalAmount}`;
+
+    // Open WhatsApp with the encoded message
     const whatsappUrl = `https://wa.me/9060917383?text=${encodeURIComponent(
       message
     )}`;
-
-    // Open WhatsApp in new tab
     window.open(whatsappUrl, "_blank");
 
     // Clear the cart after sending the order
     clearCart();
 
+    // Close forms and notify user
     alert("Thank you for your order! We will process it shortly.");
     closeCart();
     setShowCheckoutForm(false);
@@ -65,8 +83,11 @@ function Cart({ cartItems, closeCart, removeItem, updateQuantity, clearCart }) {
         ) : (
           <>
             <div className="divide-y">
-              {cartItems.map((item) => (
+              {cartItems.map((item, index) => (
                 <div key={item.cartItemId} className="p-4 flex">
+                  <div className="flex-none w-6 text-gray-500 font-medium">
+                    {index + 1}.
+                  </div>
                   <img
                     src={item.image}
                     alt={item.name}
@@ -88,35 +109,42 @@ function Cart({ cartItems, closeCart, removeItem, updateQuantity, clearCart }) {
                       <div className="text-sm text-gray-600">
                         <p>Size: {item.selectedSize}</p>
                         <p>Color: {item.selectedColor}</p>
+                        <p className="font-semibold">Price: ₹{item.price}</p>
                       </div>
                     )}
 
                     {["salt", "sugar", "dal"].includes(item.category) && (
                       <div className="text-sm text-gray-600">
                         <p>Weight: {item.selectedWeight}</p>
+                        <p className="font-semibold">Price: ₹{item.price}</p>
                       </div>
                     )}
 
-                    <div className="flex items-center mt-2">
-                      <button
-                        onClick={() =>
-                          updateQuantity(item.cartItemId, item.quantity - 1)
-                        }
-                        className="w-8 h-8 border rounded-l flex items-center justify-center"
-                      >
-                        -
-                      </button>
-                      <span className="w-10 h-8 border-t border-b flex items-center justify-center">
-                        {item.quantity}
-                      </span>
-                      <button
-                        onClick={() =>
-                          updateQuantity(item.cartItemId, item.quantity + 1)
-                        }
-                        className="w-8 h-8 border rounded-r flex items-center justify-center"
-                      >
-                        +
-                      </button>
+                    <div className="flex items-center mt-2 justify-between">
+                      <div className="flex items-center">
+                        <button
+                          onClick={() =>
+                            updateQuantity(item.cartItemId, item.quantity - 1)
+                          }
+                          className="w-8 h-8 border rounded-l flex items-center justify-center"
+                        >
+                          -
+                        </button>
+                        <span className="w-10 h-8 border-t border-b flex items-center justify-center">
+                          {item.quantity}
+                        </span>
+                        <button
+                          onClick={() =>
+                            updateQuantity(item.cartItemId, item.quantity + 1)
+                          }
+                          className="w-8 h-8 border rounded-r flex items-center justify-center"
+                        >
+                          +
+                        </button>
+                      </div>
+                      <div className="text-green-700 font-bold">
+                        ₹{(item.price * item.quantity).toFixed(2)}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -124,6 +152,12 @@ function Cart({ cartItems, closeCart, removeItem, updateQuantity, clearCart }) {
             </div>
 
             <div className="sticky bottom-0 bg-white border-t p-4 mt-auto">
+              <div className="flex justify-between mb-4">
+                <span className="font-semibold">Total:</span>
+                <span className="font-bold text-green-700">
+                  ₹{calculateTotal().toFixed(2)}
+                </span>
+              </div>
               <button
                 onClick={initiateCheckout}
                 className="w-full bg-green-600 text-white py-3 rounded-md font-medium hover:bg-green-700 transition"
@@ -140,6 +174,7 @@ function Cart({ cartItems, closeCart, removeItem, updateQuantity, clearCart }) {
           closeForm={() => setShowCheckoutForm(false)}
           completeOrder={completeOrder}
           cartItems={cartItems}
+          totalAmount={calculateTotal()}
         />
       )}
     </div>

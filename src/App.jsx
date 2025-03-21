@@ -95,7 +95,7 @@ function App() {
     <div className="min-h-screen flex flex-col">
       <Navbar cartItems={cart} toggleCart={() => setShowCart(!showCart)} />
       <main className="flex-grow pt-16">
-        <Hero />
+        {/* <Hero /> */}
         <ProductList addToCart={addToCart} />
         {showCart && (
           <Cart
