@@ -158,8 +158,9 @@ function ProductCard({ product, addToCart }) {
               onChange={(e) => setSelectedWeight(e.target.value)}
               className="w-full p-2 border rounded text-sm"
             >
+              <option value="">Select Size</option>
               <option value="25kg">25kg</option>
-              <option value="50kg">15kg</option>
+              <option value="15kg">12kg</option>
             </select>
           </div>
         ) : null}
