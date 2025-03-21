@@ -159,7 +159,7 @@ function ProductCard({ product, addToCart }) {
               className="w-full p-2 border rounded text-sm"
             >
               <option value="25kg">25kg</option>
-              {/* <option value="50kg">50kg</option> */}
+              <option value="50kg">15kg</option>
             </select>
           </div>
         ) : null}
