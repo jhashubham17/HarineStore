@@ -15,7 +15,7 @@ function ProductList({ addToCart }) {
       id: 2,
       name: "Salt",
       image: "./salt.jpeg",
-      description: "Pure Himalayan pink salt, rich in minerals",
+      description: "Pure salt, rich in minerals",
       category: "salt",
       price: 250, // Example price for salt
     },
