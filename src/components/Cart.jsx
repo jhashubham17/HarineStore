@@ -49,7 +49,7 @@ ${productDetails}
 Total Order Amount: ₹${totalAmount}`;
 
     // Open WhatsApp with the encoded message
-    const whatsappUrl = `https://wa.me/9060917383?text=${encodeURIComponent(
+    const whatsappUrl = `https://wa.me/7759958831?text=${encodeURIComponent(
       message
     )}`;
     window.open(whatsappUrl, "_blank");
