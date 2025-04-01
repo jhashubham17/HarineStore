@@ -50,7 +50,7 @@ function Footer() {
         </div>
 
         <div className="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
-          <p>© 2025 Harine General Store. All rights reserved.</p>
+          <p>© 2025 Sujal General Store. All rights reserved.</p>
         </div>
       </div>
     </footer>
