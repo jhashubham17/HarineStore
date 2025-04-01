@@ -1,4 +1,11 @@
 import React, { useState, useEffect } from "react";
+import {
+  Minus,
+  Plus,
+  ChevronDown,
+  ChevronUp,
+  ShoppingCart,
+} from "lucide-react";
 
 function ProductCard({ product, addToCart }) {
   const [selectedSize, setSelectedSize] = useState("");
@@ -6,23 +13,38 @@ function ProductCard({ product, addToCart }) {
   const [selectedWeight, setSelectedWeight] = useState("");
   const [selectedVolume, setSelectedVolume] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const [displayPrice, setDisplayPrice] = useState(product.price);
+  const [displayPrice, setDisplayPrice] = useState(product.price || 0);
   const [expanded, setExpanded] = useState(false);
 
-  // Check product category
+  // Check product category and specific product
   const isSoap = product.category === "soap";
-  const isWeightedProduct = ["salt", "rice"].includes(product.category);
-  const isWashingPowder = product.category === "washing-powder";
+  const isDhoDallSoap = product.id === 2;
+  const isWeightedProduct = ["salt", "rice", "washing-powder"].includes(
+    product.category
+  );
   const isMustardOil = product.category === "mustard-oil";
+  const isFixedUnitProduct = isDhoDallSoap || isWeightedProduct || isMustardOil;
 
-  // Auto-select weights for rice and salt
-  useEffect(() => {
-    if (isWeightedProduct) {
-      setSelectedWeight(product.category === "rice" ? "30kg" : "25kg");
-    }
-  }, [product.category, isWeightedProduct]);
+  // Define company names based on product ID or other criteria
+  const getCompanyName = () => {
+    // Map company names based on product id or other logic
+    const companyMap = {
+      1: "Power Gold",
+      2: "Dho Dalla",
+      3: "GateWay Of India",
+      4: "GateWay Of India",
+      5: "GateWay Of India",
+      6: "GateWay Of India",
+      7: "GateWay Of India",
+      8: "Dho Dalla",
+      9: "relience",
+      10: "Koyal",
+    };
 
-  // Price mappings
+    return companyMap[product.id] || "Brand";
+  };
+
+  // Product variations and pricing
   const soapPrices = {
     "300×20": 415,
     "270×20": 370,
@@ -36,29 +58,42 @@ function ProductCard({ product, addToCart }) {
     salt: [{ value: "25kg", label: "25kg", price: product.price }],
     rice: [{ value: "30kg", label: "30kg", price: product.price }],
     "washing-powder": [
-      { value: "1kg", label: "1kg", price: 120 },
-      { value: "5kg", label: "5kg", price: 550 },
-      { value: "10kg", label: "10kg", price: 1000 },
+      { value: "25kg", label: "25kg", price: product.price || 1400 },
     ],
   };
 
   const mustardOilOptions = [
-    { value: "1L", label: "1 Liter", price: 200 },
-    { value: "5L", label: "5 Liters", price: 950 },
-    { value: "15L", label: "15 Liters", price: 2800 },
+    { value: "25L", label: "25 Liters", price: product.price || 2800 },
   ];
+
+  const colorOptions = [
+    { name: "red", label: "Red", hex: "#EF4444" },
+    { name: "green", label: "Green", hex: "#10B981" },
+    { name: "yellow", label: "Yellow", hex: "#F59E0B" },
+  ];
+
+  // Auto-select default options
+  useEffect(() => {
+    if (isWeightedProduct) {
+      const defaultWeight =
+        product.category === "rice"
+          ? "30kg"
+          : product.category === "washing-powder"
+          ? "25kg"
+          : "25kg";
+      setSelectedWeight(defaultWeight);
+    }
+    if (isMustardOil) {
+      setSelectedVolume("25L");
+    }
+  }, [product.category, isWeightedProduct, isMustardOil]);
 
   // Update price when selection changes
   useEffect(() => {
-    if (isSoap && selectedSize) {
+    if (isSoap && selectedSize && !isDhoDallSoap) {
       setDisplayPrice(soapPrices[selectedSize]);
-    } else if (isWashingPowder && selectedWeight) {
-      const option = weightOptions["washing-powder"].find(
-        (opt) => opt.value === selectedWeight
-      );
-      setDisplayPrice(option?.price || product.price);
     } else if (isWeightedProduct && selectedWeight) {
-      const option = weightOptions[product.category].find(
+      const option = weightOptions[product.category]?.find(
         (opt) => opt.value === selectedWeight
       );
       setDisplayPrice(option?.price || product.price);
@@ -68,11 +103,20 @@ function ProductCard({ product, addToCart }) {
       );
       setDisplayPrice(option?.price || product.price);
     } else {
-      setDisplayPrice(product.price);
+      setDisplayPrice(product.price || 0);
     }
   }, [selectedSize, selectedWeight, selectedVolume, product]);
 
   const handleAddToCart = () => {
+    if (isDhoDallSoap) {
+      addToCart({
+        ...product,
+        quantity,
+        price: product.price,
+      });
+      return;
+    }
+
     if (isSoap) {
       if (!selectedSize || !selectedColor) {
         alert("Please select both size and color for soap products");
@@ -85,15 +129,10 @@ function ProductCard({ product, addToCart }) {
         quantity,
         price: soapPrices[selectedSize],
       });
-    } else if (isWashingPowder || isWeightedProduct) {
-      if (!selectedWeight) {
-        alert(`Please select ${isWashingPowder ? "size" : "weight"}`);
-        return;
-      }
-      const options = isWashingPowder
-        ? weightOptions["washing-powder"]
-        : weightOptions[product.category];
-      const option = options.find((opt) => opt.value === selectedWeight);
+    } else if (isWeightedProduct) {
+      const option = weightOptions[product.category]?.find(
+        (opt) => opt.value === selectedWeight
+      );
       addToCart({
         ...product,
         selectedWeight,
@@ -101,10 +140,6 @@ function ProductCard({ product, addToCart }) {
         price: option?.price || product.price,
       });
     } else if (isMustardOil) {
-      if (!selectedVolume) {
-        alert("Please select volume for mustard oil");
-        return;
-      }
       const option = mustardOilOptions.find(
         (opt) => opt.value === selectedVolume
       );
@@ -121,7 +156,7 @@ function ProductCard({ product, addToCart }) {
       });
     }
 
-    // Reset selections
+    // Reset selections after adding to cart
     setQuantity(1);
     setSelectedColor("");
     setSelectedSize("");
@@ -131,41 +166,52 @@ function ProductCard({ product, addToCart }) {
     setSelectedVolume("");
   };
 
-  const toggleDescription = () => {
-    setExpanded(!expanded);
-  };
-
   // Determine if we should show the total price calculation
+  // Modified to include the isDhoDallSoap condition
   const showTotalCalculation =
-    (isSoap && selectedSize) ||
-    (isWashingPowder && selectedWeight) ||
-    isWeightedProduct ||
-    (isMustardOil && selectedVolume);
+    ((isSoap && selectedSize && !isDhoDallSoap) || isFixedUnitProduct) &&
+    displayPrice;
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition h-full flex flex-col">
-      <div className="relative">
+    <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 h-full flex flex-col border border-gray-100">
+      {/* Product image with category badge and company badge */}
+      <div className="relative overflow-hidden group">
         <img
           src={product.image}
           alt={product.name}
-          className="w-full h-48 sm:h-56 object-contain"
+          className="w-full h-60 object-contain p-4 transition-transform duration-300 group-hover:scale-105"
         />
-        <div className="absolute top-2 right-2">
-          <span className="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded-full">
+        {/* Category badge (right side) */}
+        <div className="absolute top-3 right-3">
+          <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-1 rounded-full">
             {product.category.split("-").join(" ")}
           </span>
         </div>
-      </div>
-      <div className="p-3 sm:p-4 flex-grow flex flex-col">
-        <div className="flex justify-between items-start mb-1 sm:mb-2">
-          <h3 className="text-base sm:text-lg font-semibold">{product.name}</h3>
-          <div className="text-base sm:text-lg font-bold text-green-700">
-            ₹{displayPrice}
-          </div>
+        {/* Company badge (left side) */}
+        <div className="absolute top-3 left-3">
+          <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-1 rounded-full">
+            {getCompanyName()}
+          </span>
         </div>
-        <div className="mb-2 sm:mb-3">
+      </div>
+
+      {/* Product details */}
+      <div className="p-5 flex-grow flex flex-col">
+        <div className="flex justify-between items-start mb-2">
+          <h3 className="text-lg font-semibold text-gray-800 line-clamp-1">
+            {product.name}
+          </h3>
+          {displayPrice && (
+            <div className="text-lg font-bold text-green-600">
+              ₹{displayPrice}
+            </div>
+          )}
+        </div>
+
+        {/* Description with expand/collapse */}
+        <div className="mb-4">
           <p
-            className={`text-gray-600 text-xs sm:text-sm ${
+            className={`text-gray-600 text-sm ${
               expanded ? "" : "line-clamp-2"
             }`}
           >
@@ -173,134 +219,136 @@ function ProductCard({ product, addToCart }) {
           </p>
           {product.description.length > 60 && (
             <button
-              onClick={toggleDescription}
-              className="text-green-600 text-xs mt-1 hover:underline focus:outline-none"
+              onClick={() => setExpanded(!expanded)}
+              className="text-green-600 text-xs mt-1 hover:underline focus:outline-none flex items-center"
             >
-              {expanded ? "Show less" : "Read more"}
+              {expanded ? (
+                <>
+                  Show less <ChevronUp size={14} className="ml-1" />
+                </>
+              ) : (
+                <>
+                  Read more <ChevronDown size={14} className="ml-1" />
+                </>
+              )}
             </button>
           )}
         </div>
 
-        {isSoap ? (
-          <div className="space-y-2 sm:space-y-3 mb-2 sm:mb-3">
-            <div>
-              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
-                Size:
-              </label>
-              <select
-                value={selectedSize}
-                onChange={(e) => setSelectedSize(e.target.value)}
-                className="w-full p-1 sm:p-2 border rounded text-xs sm:text-sm"
-              >
-                <option value="">Select Size</option>
-                {Object.entries(soapPrices).map(([size, price]) => (
-                  <option key={size} value={size}>
-                    {size} - ₹{price}
-                  </option>
-                ))}
-              </select>
-            </div>
+        {/* Product options */}
+        <div className="space-y-4 mb-4">
+          {/* Soap options - only for non-DhoDall soaps */}
+          {isSoap && !isDhoDallSoap && (
+            <>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Size:
+                </label>
+                <select
+                  value={selectedSize}
+                  onChange={(e) => setSelectedSize(e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                >
+                  <option value="">Select Size</option>
+                  {Object.entries(soapPrices).map(([size, price]) => (
+                    <option key={size} value={size}>
+                      {size} - ₹{price}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Color:
+                </label>
+                <div className="flex space-x-3">
+                  {colorOptions.map((color) => (
+                    <button
+                      key={color.name}
+                      type="button"
+                      onClick={() => setSelectedColor(color.name)}
+                      className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
+                        selectedColor === color.name
+                          ? "ring-2 ring-offset-2 ring-gray-800"
+                          : "ring-1 ring-gray-200"
+                      }`}
+                      style={{ backgroundColor: color.hex }}
+                      aria-label={color.label}
+                    >
+                      {selectedColor === color.name && (
+                        <span className="text-white text-xs">✓</span>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* Fixed unit products display */}
+          {isFixedUnitProduct && (
             <div>
-              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
-                Color:
-              </label>
-              <div className="flex space-x-2">
-                {["red", "green", "yellow"].map((color) => (
-                  <button
-                    key={color}
-                    type="button"
-                    onClick={() => setSelectedColor(color)}
-                    className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 ${
-                      selectedColor === color
-                        ? "border-black"
-                        : "border-transparent"
-                    }`}
-                    style={{ backgroundColor: color }}
-                    aria-label={color.charAt(0).toUpperCase() + color.slice(1)}
-                  />
-                ))}
+              <div className="inline-flex bg-gray-100 px-3 py-1 rounded-full text-sm font-medium text-gray-700">
+                {isDhoDallSoap && "Package: 1 Box/25 Piece"}
+                {isWeightedProduct &&
+                  `Package: ${
+                    product.category === "rice"
+                      ? "30kg"
+                      : product.category === "washing-powder"
+                      ? "25kg"
+                      : "25kg"
+                  }`}
+                {isMustardOil && "Package: 25 Liters"}
               </div>
             </div>
-          </div>
-        ) : isWashingPowder ? (
-          <div className="mb-2 sm:mb-3">
-            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
-              Size:
-            </label>
-            <select
-              value={selectedWeight}
-              onChange={(e) => setSelectedWeight(e.target.value)}
-              className="w-full p-1 sm:p-2 border rounded text-xs sm:text-sm"
-            >
-              <option value="">Select Size</option>
-              {weightOptions["washing-powder"].map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label} - ₹{option.price}
-                </option>
-              ))}
-            </select>
-          </div>
-        ) : isWeightedProduct ? (
-          <div className="mb-2 sm:mb-3">
-            <div className="text-xs sm:text-sm font-medium text-gray-700">
-              {product.category === "rice" ? "30kg" : "25kg"}
-            </div>
-          </div>
-        ) : isMustardOil ? (
-          <div className="mb-2 sm:mb-3">
-            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
-              Volume:
-            </label>
-            <select
-              value={selectedVolume}
-              onChange={(e) => setSelectedVolume(e.target.value)}
-              className="w-full p-1 sm:p-2 border rounded text-xs sm:text-sm"
-            >
-              <option value="">Select Volume</option>
-              {mustardOilOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label} - ₹{option.price}
-                </option>
-              ))}
-            </select>
-          </div>
-        ) : null}
+          )}
 
-        <div className="mb-2 sm:mb-3 mt-auto">
-          <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
-            Quantity:
-          </label>
-          <div className="flex items-center">
-            <button
-              onClick={() => setQuantity(Math.max(1, quantity - 1))}
-              className="w-6 h-6 sm:w-8 sm:h-8 border rounded-l flex items-center justify-center text-xs sm:text-sm"
-            >
-              -
-            </button>
-            <span className="w-8 sm:w-10 h-6 sm:h-8 border-t border-b flex items-center justify-center text-xs sm:text-sm">
-              {quantity}
-            </span>
-            <button
-              onClick={() => setQuantity(quantity + 1)}
-              className="w-6 h-6 sm:w-8 sm:h-8 border rounded-r flex items-center justify-center text-xs sm:text-sm"
-            >
-              +
-            </button>
+          {/* Quantity selector */}
+          <div className="mt-1">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Quantity:
+            </label>
+            <div className="flex items-center">
+              <button
+                onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                className="w-10 h-10 bg-gray-100 rounded-l-lg border border-gray-300 flex items-center justify-center hover:bg-gray-200 transition-colors"
+              >
+                <Minus size={18} className="text-gray-600" />
+              </button>
+              <input
+                type="text"
+                value={quantity}
+                readOnly
+                className="w-12 h-10 border-t border-b border-gray-300 text-center text-sm"
+              />
+              <button
+                onClick={() => setQuantity(quantity + 1)}
+                className="w-10 h-10 bg-gray-100 rounded-r-lg border border-gray-300 flex items-center justify-center hover:bg-gray-200 transition-colors"
+              >
+                <Plus size={18} className="text-gray-600" />
+              </button>
+            </div>
           </div>
         </div>
 
-        {showTotalCalculation && (
-          <div className="mb-2 sm:mb-3 text-xs sm:text-sm text-gray-700">
-            Total: ₹{(displayPrice * quantity).toFixed(2)}
+        {/* Total price calculation - Now includes Dho Dalla soap */}
+        {(showTotalCalculation || isDhoDallSoap) && displayPrice && (
+          <div className="mb-4 text-sm font-medium text-gray-700 bg-gray-50 p-2 rounded-md">
+            Total:{" "}
+            <span className="text-green-600 font-bold">
+              ₹{(displayPrice * quantity).toLocaleString("en-IN")}
+            </span>
           </div>
         )}
 
-        <div className="flex justify-end mt-auto">
+        {/* Add to cart button */}
+        <div className="mt-auto">
           <button
             onClick={handleAddToCart}
-            className="bg-green-600 text-white px-2 sm:px-3 py-1 rounded text-xs sm:text-sm hover:bg-green-700 transition"
+            className="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center font-medium"
           >
+            <ShoppingCart size={18} className="mr-2" />
             Add to Cart
           </button>
         </div>
