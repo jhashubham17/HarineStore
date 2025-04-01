@@ -75,9 +75,9 @@ function ProductList({ addToCart }) {
     },
     {
       id: 9,
-      name: "Premium Salt",
-      image: "./salt.jpeg",
-      description: "Pure salt, rich in minerals",
+      name: "Salt",
+      image: "./KoyalSaltImg.jpg",
+      description: "Refined Iodised Salt, rich in minerals",
       category: "salt",
       price: 185, // Base price for 25kg
     },
