@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   MapPin,
   Phone,
@@ -10,6 +10,47 @@ import {
 } from "lucide-react";
 
 function Footer() {
+  const [email, setEmail] = useState("");
+  const [subscribeStatus, setSubscribeStatus] = useState(null);
+
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+
+    // Basic email validation
+    if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+      setSubscribeStatus({
+        success: false,
+        message: "Please enter a valid email address",
+      });
+      return;
+    }
+
+    // In a real application, you would send this data to your backend
+    // This is a simple simulation of the subscription process
+    setTimeout(() => {
+      setSubscribeStatus({
+        success: true,
+        message: "Thank you for subscribing!",
+      });
+      setEmail(""); // Clear the input after successful subscription
+    }, 500);
+
+    // You would typically have code like this:
+    // fetch('/api/subscribe', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ email })
+    // })
+    // .then(response => response.json())
+    // .then(data => {
+    //   setSubscribeStatus({ success: true, message: "Thank you for subscribing!" });
+    //   setEmail("");
+    // })
+    // .catch(error => {
+    //   setSubscribeStatus({ success: false, message: "Subscription failed. Please try again." });
+    // });
+  };
+
   return (
     <footer className="bg-gray-900 text-white" id="contact">
       <div className="container mx-auto px-6 py-12">
@@ -17,7 +58,7 @@ function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center mb-12 border-b border-gray-800 pb-8">
           <div className="mb-6 md:mb-0">
             <h2 className="text-2xl font-bold text-white mb-2">
-              Harine General Store
+              Sujal General Store
             </h2>
             <p className="text-gray-400">
               Quality products for your everyday needs
@@ -25,17 +66,39 @@ function Footer() {
           </div>
 
           <div className="w-full md:w-auto mt-4 md:mt-0">
-            <div className="flex flex-col sm:flex-row gap-3">
-              <input
-                type="email"
-                placeholder="Subscribe to our newsletter"
-                className="px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
-              />
-              <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center text-sm">
+            <form
+              onSubmit={handleSubscribe}
+              className="flex flex-col sm:flex-row gap-3"
+            >
+              <div className="relative">
+                <input
+                  type="email"
+                  placeholder="Subscribe to our newsletter"
+                  className="px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-sm w-full"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+                {subscribeStatus && (
+                  <div
+                    className={`absolute mt-1 text-xs ${
+                      subscribeStatus.success
+                        ? "text-green-400"
+                        : "text-red-400"
+                    }`}
+                  >
+                    {subscribeStatus.message}
+                  </div>
+                )}
+              </div>
+              <button
+                type="submit"
+                className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center text-sm"
+              >
                 <Send size={16} className="mr-2" />
                 Subscribe
               </button>
-            </div>
+            </form>
           </div>
         </div>
 
@@ -85,6 +148,7 @@ function Footer() {
                 <div className="text-gray-400">
                   <p>+91 7759958831</p>
                   <p>+91 8002253121</p>
+                  <p>+91 9060917383</p>
                 </div>
               </li>
               <li className="flex items-start">
@@ -196,7 +260,7 @@ function Footer() {
 
         {/* Bottom copyright section */}
         <div className="border-t border-gray-800 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
-          <p>© 2025 Harine General Store. All rights reserved.</p>
+          <p>© 2025 Sujal General Store. All rights reserved.</p>
           <div className="mt-3 md:mt-0 flex space-x-6">
             <a href="#" className="hover:text-green-400 transition-colors">
               Privacy Policy

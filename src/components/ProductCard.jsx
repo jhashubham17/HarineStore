@@ -18,25 +18,20 @@ function ProductCard({ product, addToCart }) {
 
   // Check product category and specific product
   const isSoap = product.category === "soap";
-  const isDhoDallSoap = product.id === 2;
-  const isWeightedProduct = ["salt", "rice", "washing-powder"].includes(
-    product.category
-  );
+  const isWeightedProduct = ["salt", "rice"].includes(product.category);
   const isMustardOil = product.category === "mustard-oil";
-  const isFixedUnitProduct = isDhoDallSoap || isWeightedProduct || isMustardOil;
+  const isFixedUnitProduct = isWeightedProduct || isMustardOil;
 
   // Define company names based on product ID or other criteria
   const getCompanyName = () => {
     // Map company names based on product id or other logic
     const companyMap = {
       1: "Power Gold",
-      2: "Dho Dalla",
       3: "GateWay Of India",
       4: "GateWay Of India",
       5: "GateWay Of India",
       6: "GateWay Of India",
       7: "GateWay Of India",
-      8: "Dho Dalla",
       9: "relience",
       10: "Koyal",
     };
@@ -57,9 +52,6 @@ function ProductCard({ product, addToCart }) {
   const weightOptions = {
     salt: [{ value: "25kg", label: "25kg", price: product.price }],
     rice: [{ value: "30kg", label: "30kg", price: product.price }],
-    "washing-powder": [
-      { value: "25kg", label: "25kg", price: product.price || 1400 },
-    ],
   };
 
   const mustardOilOptions = [
@@ -75,12 +67,7 @@ function ProductCard({ product, addToCart }) {
   // Auto-select default options
   useEffect(() => {
     if (isWeightedProduct) {
-      const defaultWeight =
-        product.category === "rice"
-          ? "30kg"
-          : product.category === "washing-powder"
-          ? "25kg"
-          : "25kg";
+      const defaultWeight = product.category === "rice" ? "30kg" : "25kg";
       setSelectedWeight(defaultWeight);
     }
     if (isMustardOil) {
@@ -90,7 +77,7 @@ function ProductCard({ product, addToCart }) {
 
   // Update price when selection changes
   useEffect(() => {
-    if (isSoap && selectedSize && !isDhoDallSoap) {
+    if (isSoap && selectedSize) {
       setDisplayPrice(soapPrices[selectedSize]);
     } else if (isWeightedProduct && selectedWeight) {
       const option = weightOptions[product.category]?.find(
@@ -108,15 +95,6 @@ function ProductCard({ product, addToCart }) {
   }, [selectedSize, selectedWeight, selectedVolume, product]);
 
   const handleAddToCart = () => {
-    if (isDhoDallSoap) {
-      addToCart({
-        ...product,
-        quantity,
-        price: product.price,
-      });
-      return;
-    }
-
     if (isSoap) {
       if (!selectedSize || !selectedColor) {
         alert("Please select both size and color for soap products");
@@ -167,10 +145,8 @@ function ProductCard({ product, addToCart }) {
   };
 
   // Determine if we should show the total price calculation
-  // Modified to include the isDhoDallSoap condition
   const showTotalCalculation =
-    ((isSoap && selectedSize && !isDhoDallSoap) || isFixedUnitProduct) &&
-    displayPrice;
+    ((isSoap && selectedSize) || isFixedUnitProduct) && displayPrice;
 
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 h-full flex flex-col border border-gray-100">
@@ -237,8 +213,8 @@ function ProductCard({ product, addToCart }) {
 
         {/* Product options */}
         <div className="space-y-4 mb-4">
-          {/* Soap options - only for non-DhoDall soaps */}
-          {isSoap && !isDhoDallSoap && (
+          {/* Soap options */}
+          {isSoap && (
             <>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -290,15 +266,8 @@ function ProductCard({ product, addToCart }) {
           {isFixedUnitProduct && (
             <div>
               <div className="inline-flex bg-gray-100 px-3 py-1 rounded-full text-sm font-medium text-gray-700">
-                {isDhoDallSoap && "Package: 1 Box/25 Piece"}
                 {isWeightedProduct &&
-                  `Package: ${
-                    product.category === "rice"
-                      ? "30kg"
-                      : product.category === "washing-powder"
-                      ? "25kg"
-                      : "25kg"
-                  }`}
+                  `Package: ${product.category === "rice" ? "30kg" : "25kg"}`}
                 {isMustardOil && "Package: 25 Liters"}
               </div>
             </div>
@@ -332,8 +301,8 @@ function ProductCard({ product, addToCart }) {
           </div>
         </div>
 
-        {/* Total price calculation - Now includes Dho Dalla soap */}
-        {(showTotalCalculation || isDhoDallSoap) && displayPrice && (
+        {/* Total price calculation */}
+        {showTotalCalculation && displayPrice && (
           <div className="mb-4 text-sm font-medium text-gray-700 bg-gray-50 p-2 rounded-md">
             Total:{" "}
             <span className="text-green-600 font-bold">

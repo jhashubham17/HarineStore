@@ -13,14 +13,6 @@ function ProductList({ addToCart }) {
       category: "soap",
     },
     {
-      id: 2,
-      name: "Dho Dalla Clothing Soap",
-      image: "./DhoDallSoapImg.jpg",
-      description: "Clothing Washing soap with essential oils",
-      category: "soap",
-      price: 240, // Added price for piece
-    },
-    {
       id: 3,
       name: "Dubar Basmati Rice",
       image: "./DubarSellaBasmatiRice.png",
@@ -66,14 +58,6 @@ function ProductList({ addToCart }) {
       price: 2375, // Base price for 30kg
     },
     {
-      id: 8,
-      name: "Washing Powder",
-      image: "./WashingPowderImg.jpg",
-      description: "Powerful cleaning washing powder",
-      category: "washing-powder",
-      price: 2300, // Base price for 10kg
-    },
-    {
       id: 9,
       name: "Mustard Oil",
       image: "./IndependenceMustardOil.webp",
@@ -96,14 +80,7 @@ function ProductList({ addToCart }) {
     searchTerm: "",
   });
 
-  const categories = [
-    "all",
-    "soap",
-    "rice",
-    "washing-powder",
-    "mustard-oil",
-    "salt",
-  ];
+  const categories = ["all", "soap", "rice", "mustard-oil", "salt"];
 
   // Filter products based on category and search term
   const filteredProducts = products.filter((product) => {
