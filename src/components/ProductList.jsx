@@ -1,77 +1,216 @@
 import React, { useState } from "react";
 import ProductCard from "./ProductCard";
 import { Search, X } from "lucide-react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function ProductList({ addToCart }) {
-  // Products organized by category
   const products = [
+    // Soap Products (20 Pieces)
     {
       id: 1,
-      name: "Power Gold Clothing Soap",
-      image: "./PowerGoldSoap.avif",
+      name: "Power Gold Soap",
+      images: [
+        "./PowerGoldSoap.avif",
+        // "./SoapImg2.jpg",
+        // "/images/PowerGoldSoap3.avif",
+      ],
       description: "Clothing Washing soap with essential oils",
+      Size: "300×20",
+      package: "20 Pieces",
+      price: 410,
+      category: "soap",
+    },
+    {
+      id: 2,
+      name: "Power Gold Soap",
+      images: [
+        "./PowerGoldSoap.avif",
+        // "/images/PowerGoldSoap2.avif",
+        // "/images/PowerGoldSoap3.avif",
+      ],
+      description: "Clothing Washing soap with essential oils",
+      Size: "270×20",
+      package: "20 Pieces",
+      price: 370,
       category: "soap",
     },
     {
       id: 3,
-      name: "Dubar Basmati Rice",
-      image: "./DubarSellaBasmatiRice.png",
-      description:
-        "Dubar Sella Basmati Rice features medium-length grains, golden hue, and firm texture, ideal for everyday meals and flavorful biryanis.",
-      category: "rice",
-      price: 1350, // Base price for 30kg
+      name: "Power Gold Soap",
+      images: [
+        "./PowerGoldSoap.avif",
+        // "/images/PowerGoldSoap2.avif",
+        // "/images/PowerGoldSoap3.avif",
+      ],
+      description: "Clothing Washing soap with essential oils",
+      Size: "250×20",
+      package: "20 Pieces",
+      price: 350,
+      category: "soap",
     },
     {
       id: 4,
-      name: "Tibar Basmati rice",
-      image: "./TibarSellaBasmatiRice.png",
-      description:
-        "Tibar Sella Basmati rice offers long grains, rich aroma, and perfect fluffiness, ideal for flavorful, aromatic dishes and biryanis.",
-      category: "rice",
-      price: 1440, // Base price for 30kg
+      name: "Power Gold Soap",
+      images: [
+        "./PowerGoldSoap.avif",
+        // "/images/PowerGoldSoap2.avif",
+        // "/images/PowerGoldSoap3.avif",
+      ],
+      description: "Clothing Washing soap with essential oils",
+      Size: "225×20",
+      package: "20 Pieces",
+      price: 310,
+      category: "soap",
     },
     {
       id: 5,
-      name: "Select Biryani Rice",
-      image: "./SelectBiryaniWhiteSella.png",
-      description:
-        "Select Biryani White Sella offers Long-grain, aromatic, aged rice that enhances biryani with its fluffy texture and rich flavor. Premium quality for perfect dishes.",
-      category: "rice",
-      price: 1935, // Base price for 30kg
+      name: "Power Gold Soap",
+      images: [
+        "./PowerGoldSoap.avif",
+        // "/images/PowerGoldSoap2.avif",
+        // "/images/PowerGoldSoap3.avif",
+      ],
+      description: "Clothing Washing soap with essential oils",
+      Size: "190×20",
+      package: "20 Pieces",
+      price: 270,
+      category: "soap",
     },
+    // Soap Product (50 Pieces)
     {
       id: 6,
-      name: "Dum Briyani Basmati Rice",
-      image: "./PremiumDumBriyani.png",
-      description:
-        "Premium Dum Briyani Basmati Rice offers long grains, aromatic fragrance, and fluffy texture, perfect for traditional Indian dishes and celebrations.",
-      category: "rice",
-      price: 2325, // Base price for 30kg
+      name: "Power Gold Soap",
+      images: [
+        "./PowerGoldSoap.avif",
+        // "/images/PowerGoldSoap2.avif",
+        // "/images/PowerGoldSoap3.avif",
+      ],
+      description: "Clothing Washing soap with essential oils",
+      Size: "120×50",
+      package: "50 Pieces",
+      price: 400,
+      category: "soap",
     },
+    // Rice Products (30kg)
     {
       id: 7,
-      name: "Mohtarma Biryani Basmati Rice",
-      image: "./Mohtarma1121XXLBriyaniSpecialBasmatiRice.png",
-      description:
-        "Mohtarma XXXL Biryani Basmati Rice offers extra-long, aromatic grains, perfect for rich, flavorful biryanis with a fluffy, non-sticky texture.",
+      name: "Dubar Basmati Rice",
+      images: [
+        "./DubarSellaBasmatiRice.png",
+        // "/images/DubarRice2.png",
+        // "/images/DubarRice3.png",
+      ],
+      description: "Medium-length grains, golden hue, firm texture",
+      package: "30kg",
       category: "rice",
-      price: 2375, // Base price for 30kg
+      price: 1350,
+    },
+    {
+      id: 8,
+      name: "Tibar Basmati Rice",
+      images: [
+        "./TibarSellaBasmatiRice.png",
+        // "/images/TibarRice2.png",
+        // "/images/TibarRice3.png",
+      ],
+      description: "Long grains, rich aroma, perfect fluffiness",
+      package: "30kg",
+      category: "rice",
+      price: 1440,
     },
     {
       id: 9,
-      name: "Mustard Oil",
-      image: "./IndependenceMustardOil.webp",
-      description: "Pure cold-pressed mustard oil",
-      category: "mustard-oil",
-      price: 3700, // Base price for 1 liter
+      name: "Select Biryani Rice",
+      images: [
+        "./SelectBiryaniWhiteSella.png",
+        // "/images/SelectRice2.png",
+        // "/images/SelectRice3.png",
+      ],
+      description: "Long-grain, aromatic, aged rice for perfect biryani",
+      package: "30kg",
+      category: "rice",
+      price: 1935,
     },
     {
       id: 10,
+      name: "Dum Briyani Basmati Rice",
+      images: [
+        "./PremiumDumBriyani.png",
+        // "/images/DumRice2.png",
+        // "/images/DumRice3.png",
+      ],
+      description: "Long grains, aromatic fragrance, fluffy texture",
+      package: "30kg",
+      category: "rice",
+      price: 2325,
+    },
+    {
+      id: 11,
+      name: "Mohtarma Biryani Basmati Rice",
+      images: [
+        "Mohtarma1121XXLBriyaniSpecialBasmatiRice.png",
+        // "/images/MohtarmaRice2.png",
+        // "/images/MohtarmaRice3.png",
+      ],
+      description: "Extra-long, aromatic grains for rich biryanis",
+      package: "30kg",
+      category: "rice",
+      price: 2375,
+    },
+    // Oil Products
+    {
+      id: 12,
+      name: "Kachi Ghani Mustard Oil",
+      images: [
+        "./KachiGhaniAndMustardOil1kgBottle.jpg",
+        "./KachiGhaniAndMustardOil1kg2.webp",
+        "./KachiGhaniAndMustardOil1kg1.jpg",
+        // "/images/MustardOil3.jpg",
+      ],
+      description: "Pure cold-pressed mustard oil",
+      package: "12×1L",
+      category: "mustard-oil",
+      price: 3700,
+    },
+    {
+      id: 13,
+      name: "Refined Soybean Oil",
+      images: [
+        "./RefinedSoybeanOil1kgPac.jpg",
+        "./RefinedSoybeanOil1kg.jpg",
+        // "/images/SoybeanOil3.jpg",
+      ],
+      description: "Pure refined soybean oil",
+      package: "12×1L",
+      category: "mustard-oil",
+      price: 3700,
+    },
+    {
+      id: 14,
+      name: "Refined Soybean Oil",
+      images: [
+        "./RefinedSoybeanOil5Kg.jpg",
+        "./RefinedSoybeanOil15Kg.jpg",
+        // "/images/SoybeanOil5L3.jpg",
+      ],
+      description: "Pure refined soybean oil",
+      package: "4×5L",
+      category: "mustard-oil",
+      price: 3700,
+    },
+    // Salt Product (25kg)
+    {
+      id: 15,
       name: "Salt",
-      image: "./KoyalSaltImg.jpg",
+      images: [
+        "./KoyalSaltImg.jpg",
+        //  "/images/Salt2.jpg", "/images/Salt3.jpg"
+      ],
       description: "Refined Iodised Salt, rich in minerals",
+      package: "25kg",
       category: "salt",
-      price: 185, // Base price for 25kg
+      price: 185,
     },
   ];
 
@@ -82,7 +221,6 @@ function ProductList({ addToCart }) {
 
   const categories = ["all", "soap", "rice", "mustard-oil", "salt"];
 
-  // Filter products based on category and search term
   const filteredProducts = products.filter((product) => {
     const categoryMatch =
       filters.category === "all" || product.category === filters.category;
@@ -98,12 +236,23 @@ function ProductList({ addToCart }) {
 
   return (
     <div className="container mx-auto px-4 py-12" id="products">
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+
       <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
         Our Products
       </h2>
 
       <div className="mb-8 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
-        {/* Search bar */}
         <div className="w-full lg:w-64 order-1 lg:order-2 mb-4 lg:mb-0">
           <div className="relative">
             <input
@@ -129,7 +278,6 @@ function ProductList({ addToCart }) {
           </div>
         </div>
 
-        {/* Category filters */}
         <div className="w-full lg:w-auto order-2 lg:order-1 flex flex-wrap gap-2">
           {categories.map((category) => (
             <button
@@ -147,7 +295,6 @@ function ProductList({ addToCart }) {
         </div>
       </div>
 
-      {/* Product grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {filteredProducts.map((product) => (
           <ProductCard
@@ -158,7 +305,6 @@ function ProductList({ addToCart }) {
         ))}
       </div>
 
-      {/* Empty state */}
       {filteredProducts.length === 0 && (
         <div className="text-center py-12 bg-gray-50 rounded-lg mt-6">
           <div className="mb-4">
