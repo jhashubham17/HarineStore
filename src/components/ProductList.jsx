@@ -200,7 +200,7 @@ function ProductList({ addToCart }) {
   ];
 
   const [filters, setFilters] = useState({
-    category: "all",
+    category: "popular",
     searchTerm: "",
   });
 
