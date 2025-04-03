@@ -27,7 +27,7 @@ function ProductCard({ product, addToCart }) {
 
   const getCompanyName = () => {
     if (isSoap) return "PowerGold";
-    if (isRice) return "GateWay of India";
+    if (isRice) return product.companyName || "GateWay of India";
     if (isMustardOil) return "Reliance";
     if (isSalt) return "Koyal";
     return "Brand";
