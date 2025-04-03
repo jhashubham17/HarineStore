@@ -1,148 +1,115 @@
 import React, { useState } from "react";
 import ProductCard from "./ProductCard";
-import { Search, X } from "lucide-react";
+import { Search, X, Star } from "lucide-react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function ProductList({ addToCart }) {
   const products = [
-    // Soap Products (20 Pieces)
+    // Popular Products (marked with isPopular: true)
     {
       id: 1,
-      name: "Power Gold Soap",
-      images: [
-        "./PowerGoldSoap.avif",
-        // "./SoapImg2.jpg",
-        // "/images/PowerGoldSoap3.avif",
-      ],
-      description: "Clothing Washing soap with essential oils",
+      name: "300×20",
+      images: ["./PowerGoldSoap.avif"],
+      description: "Clothing washing soap with essential oils",
       Size: "300×20",
       package: "20 Pieces",
       price: 410,
-      category: "soap",
+      category: "Soap",
+      isPopular: true,
     },
     {
       id: 2,
-      name: "Power Gold Soap",
-      images: [
-        "./PowerGoldSoap.avif",
-        // "/images/PowerGoldSoap2.avif",
-        // "/images/PowerGoldSoap3.avif",
-      ],
-      description: "Clothing Washing soap with essential oils",
+      name: "270×20",
+      images: ["./PowerGoldSoap.avif"],
+      description: "Clothing washing soap with essential oils",
       Size: "270×20",
       package: "20 Pieces",
       price: 370,
-      category: "soap",
+      category: "Soap",
+      isPopular: true,
     },
     {
       id: 3,
-      name: "Power Gold Soap",
-      images: [
-        "./PowerGoldSoap.avif",
-        // "/images/PowerGoldSoap2.avif",
-        // "/images/PowerGoldSoap3.avif",
-      ],
-      description: "Clothing Washing soap with essential oils",
+      name: "250×20",
+      images: ["./PowerGoldSoap.avif"],
+      description: "Clothing washing soap with essential oils",
       Size: "250×20",
       package: "20 Pieces",
-      price: 350,
-      category: "soap",
+      price: 335,
+      category: "Soap",
+      isPopular: true,
     },
     {
       id: 4,
-      name: "Power Gold Soap",
-      images: [
-        "./PowerGoldSoap.avif",
-        // "/images/PowerGoldSoap2.avif",
-        // "/images/PowerGoldSoap3.avif",
-      ],
-      description: "Clothing Washing soap with essential oils",
+      name: "225×20",
+      images: ["./PowerGoldSoap.avif"],
+      description: "Clothing washing soap with essential oils",
       Size: "225×20",
       package: "20 Pieces",
-      price: 310,
-      category: "soap",
+      price: 300,
+      category: "Soap",
+      isPopular: true,
     },
     {
       id: 5,
-      name: "Power Gold Soap",
-      images: [
-        "./PowerGoldSoap.avif",
-        // "/images/PowerGoldSoap2.avif",
-        // "/images/PowerGoldSoap3.avif",
-      ],
-      description: "Clothing Washing soap with essential oils",
+      name: "190×20",
+      images: ["./PowerGoldSoap.avif"],
+      description: "Clothing washing soap with essential oils",
       Size: "190×20",
       package: "20 Pieces",
       price: 270,
-      category: "soap",
+      category: "Soap",
     },
-    // Soap Product (50 Pieces)
     {
       id: 6,
-      name: "Power Gold Soap",
-      images: [
-        "./PowerGoldSoap.avif",
-        // "/images/PowerGoldSoap2.avif",
-        // "/images/PowerGoldSoap3.avif",
-      ],
-      description: "Clothing Washing soap with essential oils",
+      name: "120×50",
+      images: ["./PowerGoldSoap.avif"],
+      description: "Clothing washing soap with essential oils",
       Size: "120×50",
       package: "50 Pieces",
       price: 400,
-      category: "soap",
+      category: "Soap",
+      isPopular: true,
     },
-    // Rice Products (30kg)
+    // Rice Products
     {
       id: 7,
       name: "Dubar Basmati Rice",
-      images: [
-        "./DubarSellaBasmatiRice.png",
-        // "/images/DubarRice2.png",
-        // "/images/DubarRice3.png",
-      ],
-      description: "Medium-length grains, golden hue, firm texture",
-      package: "30kg",
-      category: "rice",
+      images: ["./DubarSellaBasmatiRice.png"],
+      description: "Premium quality basmati rice with long grains",
+      package: "30kg Bag",
       price: 1350,
+      category: "Rice",
+      isPopular: true,
     },
+
     {
       id: 8,
-      name: "Tibar Basmati Rice",
-      images: [
-        "./TibarSellaBasmatiRice.png",
-        // "/images/TibarRice2.png",
-        // "/images/TibarRice3.png",
-      ],
-      description: "Long grains, rich aroma, perfect fluffiness",
-      package: "30kg",
-      category: "rice",
+      name: "Tibar Sella Rice",
+      images: ["./TibarSellaBasmatiRice.png"],
+      description: "Golden sella basmati rice for perfect biryani",
+      package: "30kg Bag",
       price: 1440,
+      category: "Rice",
+      isPopular: true,
     },
     {
       id: 9,
       name: "Select Biryani Rice",
-      images: [
-        "./SelectBiryaniWhiteSella.png",
-        // "/images/SelectRice2.png",
-        // "/images/SelectRice3.png",
-      ],
+      images: ["./SelectBiryaniWhiteSella.png"],
       description: "Long-grain, aromatic, aged rice for perfect biryani",
-      package: "30kg",
-      category: "rice",
+      package: "30kg Bag",
       price: 1935,
+      category: "Rice",
     },
     {
       id: 10,
       name: "Dum Briyani Basmati Rice",
-      images: [
-        "./PremiumDumBriyani.png",
-        // "/images/DumRice2.png",
-        // "/images/DumRice3.png",
-      ],
+      images: ["./PremiumDumBriyani.png"],
       description: "Long grains, aromatic fragrance, fluffy texture",
       package: "30kg",
-      category: "rice",
+      category: "Rice",
       price: 2325,
     },
     {
@@ -155,62 +122,80 @@ function ProductList({ addToCart }) {
       ],
       description: "Extra-long, aromatic grains for rich biryanis",
       package: "30kg",
-      category: "rice",
+      category: "Rice",
       price: 2375,
     },
-    // Oil Products
+    // Mustard Oil Products
     {
       id: 12,
-      name: "Kachi Ghani Mustard Oil",
-      images: [
-        "./KachiGhaniAndMustardOil1kgBottle.jpg",
-        "./KachiGhaniAndMustardOil1kg2.webp",
-        "./KachiGhaniAndMustardOil1kg1.jpg",
-        // "/images/MustardOil3.jpg",
-      ],
+      name: "Kachi Ghani Mustard Oil Bottle",
+      images: ["./KachiGhaniAndMustardOil1kgBottle.jpg"],
       description: "Pure cold-pressed mustard oil",
-      package: "12×1L",
-      category: "mustard-oil",
-      price: 3700,
+      package: "1L Bottle",
+      price: 1812,
+      category: "Mustard-Oil",
+      isPopular: true,
     },
     {
       id: 13,
-      name: "Refined Soybean Oil",
-      images: [
-        "./RefinedSoybeanOil1kgPac.jpg",
-        "./RefinedSoybeanOil1kg.jpg",
-        // "/images/SoybeanOil3.jpg",
-      ],
-      description: "Pure refined soybean oil",
-      package: "12×1L",
-      category: "mustard-oil",
-      price: 3700,
+      name: "Kachi Ghani Mustard Oil Packet",
+      images: ["./KachiGhaniAndMustardOil1kg2.webp"],
+      description: "Pure cold-pressed mustard oil",
+      package: "1L Packet",
+      price: 1776,
+      category: "Mustard-Oil",
+      isPopular: true,
     },
     {
       id: 14,
-      name: "Refined Soybean Oil",
-      images: [
-        "./RefinedSoybeanOil5Kg.jpg",
-        "./RefinedSoybeanOil15Kg.jpg",
-        // "/images/SoybeanOil5L3.jpg",
-      ],
-      description: "Pure refined soybean oil",
-      package: "4×5L",
-      category: "mustard-oil",
-      price: 3700,
+      name: "Refined Soybean Oil Bottle",
+      images: ["./RefinedSoyabeanOil1KgBottle.jpg"],
+      description: "Pure refined soybean oil for cooking",
+      package: "1L Bottle",
+      price: 1716,
+      category: "Mustard-Oil",
+      isPopular: true,
     },
-    // Salt Product (25kg)
     {
       id: 15,
-      name: "Salt",
-      images: [
-        "./KoyalSaltImg.jpg",
-        //  "/images/Salt2.jpg", "/images/Salt3.jpg"
-      ],
-      description: "Refined Iodised Salt, rich in minerals",
-      package: "25kg",
-      category: "salt",
+      name: "Refined Soybean Oil Packet",
+      images: ["./RefinedSoybeanOil1kgPac.jpg"],
+      description: "Pure refined soybean oil for cooking",
+      package: "1L Packet",
+      price: 1680,
+      category: "Mustard-Oil",
+      isPopular: true,
+    },
+    {
+      id: 16,
+      name: "Kachi Ghani Mustard Oil Jar",
+      images: ["./KachiGhaniAndMustardOil15kg3.jpg"],
+      description: "Pure cold-pressed mustard oil",
+      package: "5L Jar",
+      price: 3020,
+      category: "Mustard-Oil",
+      isPopular: true,
+    },
+    {
+      id: 17,
+      name: "Refined Soybean Oil Jar",
+      images: ["./RefinedSoybeanOil5Kg.jpg"],
+      description: "Pure refined soybean oil for cooking",
+      package: "5L Jar",
+      price: 2800,
+      category: "Mustard-Oil",
+      isPopular: true,
+    },
+    // Salt Products
+    {
+      id: 18,
+      name: "Koyal Iodized Salt",
+      images: ["./KoyalSaltImg.jpg"],
+      description: "Refined iodized salt for daily cooking",
+      package: "25kg Bag",
       price: 185,
+      category: "Salt",
+      isPopular: true,
     },
   ];
 
@@ -219,11 +204,14 @@ function ProductList({ addToCart }) {
     searchTerm: "",
   });
 
-  const categories = ["all", "soap", "rice", "mustard-oil", "salt"];
+  const categories = ["all", "popular", "Soap", "Rice", "Mustard-Oil", "Salt"];
 
   const filteredProducts = products.filter((product) => {
     const categoryMatch =
-      filters.category === "all" || product.category === filters.category;
+      filters.category === "all" ||
+      (filters.category === "popular"
+        ? product.isPopular
+        : product.category === filters.category);
     const searchMatch =
       filters.searchTerm === "" ||
       product.name.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
@@ -283,12 +271,13 @@ function ProductList({ addToCart }) {
             <button
               key={category}
               onClick={() => setFilters({ ...filters, category })}
-              className={`px-4 py-2 rounded-full capitalize text-sm font-medium transition-all ${
+              className={`px-4 py-2 rounded-full capitalize text-sm font-medium transition-all flex items-center ${
                 filters.category === category
                   ? "bg-green-600 text-white shadow-md"
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               }`}
             >
+              {category === "popular" && <Star size={16} className="mr-1" />}
               {category.split("-").join(" ")}
             </button>
           ))}

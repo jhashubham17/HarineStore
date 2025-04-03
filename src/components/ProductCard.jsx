@@ -20,10 +20,10 @@ function ProductCard({ product, addToCart }) {
   const [added, setAdded] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const isSoap = product.category === "soap";
-  const isRice = product.category === "rice";
-  const isMustardOil = product.category === "mustard-oil";
-  const isSalt = product.category === "salt";
+  const isSoap = product.category === "Soap";
+  const isRice = product.category === "Rice";
+  const isMustardOil = product.category === "Mustard-Oil";
+  const isSalt = product.category === "Salt";
 
   const getCompanyName = () => {
     if (isSoap) return "PowerGold";
@@ -63,7 +63,8 @@ function ProductCard({ product, addToCart }) {
     const cartItem = {
       ...product,
       quantity,
-      selectedColor,
+      selectedColor: isSoap ? selectedColor : "",
+      selectedSize: isSoap ? product.Size : "",
       displayName: `${product.name}${isSoap ? ` (${product.Size})` : ""}`,
       brand: getCompanyName(),
       image: product.images ? product.images[0] : product.image,
@@ -86,7 +87,6 @@ function ProductCard({ product, addToCart }) {
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 h-full flex flex-col border border-gray-100">
       <div className="relative overflow-hidden group">
-        {/* Image display with navigation arrows */}
         {product.images ? (
           <div className="relative">
             <img
@@ -94,8 +94,6 @@ function ProductCard({ product, addToCart }) {
               alt={product.name}
               className="w-full h-60 object-contain p-4"
             />
-
-            {/* Navigation arrows */}
             {product.images.length > 1 && (
               <>
                 <button
@@ -129,7 +127,6 @@ function ProductCard({ product, addToCart }) {
           />
         )}
 
-        {/* Image indicator dots */}
         {product.images && product.images.length > 1 && (
           <div className="absolute bottom-2 left-0 right-0 flex justify-center space-x-2">
             {product.images.map((_, index) => (
