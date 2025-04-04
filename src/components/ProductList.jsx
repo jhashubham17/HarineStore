@@ -9,8 +9,8 @@ function ProductList({ addToCart }) {
     // Popular Products (marked with isPopular: true)
     {
       id: 1,
-      name: "300×20",
-      images: ["./PowerGoldSoap.avif"],
+      name: "300gm×20pcs",
+      images: ["./300gmX20Cartoon.jpg", "./300gmSoap.jpg"],
       description: "Clothing washing soap with essential oils",
       Size: "300×20",
       package: "20 Pieces",
@@ -20,8 +20,8 @@ function ProductList({ addToCart }) {
     },
     {
       id: 2,
-      name: "270×20",
-      images: ["./PowerGoldSoap.avif"],
+      name: "270gm×20pcs",
+      images: ["./270gmX20Cartoon.jpg", "./270gmSoap.jpg"],
       description: "Clothing washing soap with essential oils",
       Size: "270×20",
       package: "20 Pieces",
@@ -31,8 +31,8 @@ function ProductList({ addToCart }) {
     },
     {
       id: 3,
-      name: "250×20",
-      images: ["./PowerGoldSoap.avif"],
+      name: "250gm×20pcs",
+      images: ["./250gmX20Cartoon.jpg", "./250gmSoap.jpg"],
       description: "Clothing washing soap with essential oils",
       Size: "250×20",
       package: "20 Pieces",
@@ -42,8 +42,8 @@ function ProductList({ addToCart }) {
     },
     {
       id: 4,
-      name: "225×20",
-      images: ["./PowerGoldSoap.avif"],
+      name: "225gm×20pcs",
+      images: ["./225gmX20Cartoon.jpg", "./225gmSoap.jpg"],
       description: "Clothing washing soap with essential oils",
       Size: "225×20",
       package: "20 Pieces",
@@ -53,8 +53,8 @@ function ProductList({ addToCart }) {
     },
     {
       id: 5,
-      name: "190×20",
-      images: ["./PowerGoldSoap.avif"],
+      name: "190gm×20pcs",
+      images: ["./190gmX20Cartoon.jpg", "./190gmSoap.jpg"],
       description: "Clothing washing soap with essential oils",
       Size: "190×20",
       package: "20 Pieces",
@@ -63,8 +63,8 @@ function ProductList({ addToCart }) {
     },
     {
       id: 6,
-      name: "120×50",
-      images: ["./PowerGoldSoap.avif"],
+      name: "120gm×50pcs",
+      images: ["./120gmX20Cartoon.jpg", "./120gmSoap.jpg"],
       description: "Clothing washing soap with essential oils",
       Size: "120×50",
       package: "50 Pieces",

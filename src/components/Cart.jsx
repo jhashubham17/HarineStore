@@ -26,10 +26,11 @@ function Cart({ cartItems, closeCart, removeItem, updateQuantity, clearCart }) {
         productMessage += `   Quantity: ${item.quantity}\n`;
         productMessage += `   Package: ${item.package}\n`;
 
-        if (item.category === "soap") {
-          if (item.selectedSize) {
-            productMessage += `   Size: ${item.selectedSize}\n`;
-          }
+        if (item.category === "Soap") {
+          // Always include size information for soaps
+          productMessage += `   Size: ${item.selectedSize || item.Size}\n`;
+
+          // Only include color if it was selected
           if (item.selectedColor) {
             productMessage += `   Color: ${item.selectedColor}\n`;
           }
@@ -113,6 +114,11 @@ Total Order Amount: ₹${totalAmount}`;
                       <div className="flex justify-between">
                         <h3 className="font-medium text-gray-800">
                           {item.name}
+                          {item.category === "Soap" && item.Size && (
+                            <span className="ml-1 text-sm text-gray-600">
+                              ({item.Size})
+                            </span>
+                          )}
                         </h3>
                         <button
                           onClick={() => removeItem(item.cartItemId)}
@@ -129,7 +135,7 @@ Total Order Amount: ₹${totalAmount}`;
                             {item.package}
                           </span>
                         )}
-                        {item.category === "soap" && (
+                        {item.category === "Soap" && (
                           <div className="flex gap-2 mt-1">
                             {item.selectedSize && (
                               <span className="bg-gray-100 px-2 py-1 rounded-full text-xs">
@@ -145,7 +151,7 @@ Total Order Amount: ₹${totalAmount}`;
                         )}
                         <p className="font-semibold mt-2 text-gray-700">
                           ₹{item.price}{" "}
-                          {item.category === "soap" ? "each" : "per unit"}
+                          {item.category === "Soap" ? "each" : "per unit"}
                         </p>
                       </div>
 
