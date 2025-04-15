@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import AutoScrollingTextDemo from "./components/AutoScrollingText";
 import Navbar from "./components/Navbar";
 import ProductList from "./components/ProductList";
 import Cart from "./components/Cart";
 import Footer from "./components/Footer";
 import "./App.css";
+import "./index.css";
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -92,6 +94,7 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <AutoScrollingTextDemo />
       <Navbar cartItems={cart} toggleCart={() => setShowCart(!showCart)} />
       <main className="flex-grow pt-16">
         {/* <Hero /> */}

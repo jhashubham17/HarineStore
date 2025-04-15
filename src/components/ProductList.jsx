@@ -15,7 +15,7 @@ function ProductList({ addToCart }) {
       Size: "300×20",
       package: "20 Pieces",
       price: 410,
-      category: "Soap",
+      category: "Saabun",
       isPopular: true,
     },
     {
@@ -26,7 +26,7 @@ function ProductList({ addToCart }) {
       Size: "270×20",
       package: "20 Pieces",
       price: 370,
-      category: "Soap",
+      category: "Saabun",
       isPopular: true,
     },
     {
@@ -37,7 +37,7 @@ function ProductList({ addToCart }) {
       Size: "250×20",
       package: "20 Pieces",
       price: 335,
-      category: "Soap",
+      category: "Saabun",
       isPopular: true,
     },
     {
@@ -48,7 +48,7 @@ function ProductList({ addToCart }) {
       Size: "225×20",
       package: "20 Pieces",
       price: 300,
-      category: "Soap",
+      category: "Saabun",
       isPopular: true,
     },
     {
@@ -59,7 +59,29 @@ function ProductList({ addToCart }) {
       Size: "190×20",
       package: "20 Pieces",
       price: 270,
-      category: "Soap",
+      category: "Saabun",
+    },
+    {
+      id: 33,
+      name: "150gm×50pcs",
+      images: ["./120gmX20Cartoon.jpg"],
+      description: "Clothing washing soap with essential oils",
+      Size: "150×50",
+      package: "50 Pieces",
+      price: 0,
+      category: "Saabun",
+      isPopular: true,
+    },
+    {
+      id: 32,
+      name: "140gm×50pcs",
+      images: ["./120gmX20Cartoon.jpg"],
+      description: "Clothing washing soap with essential oils",
+      Size: "140×50",
+      package: "50 Pieces",
+      price: 0,
+      category: "Saabun",
+      isPopular: true,
     },
     {
       id: 6,
@@ -69,7 +91,7 @@ function ProductList({ addToCart }) {
       Size: "120×50",
       package: "50 Pieces",
       price: 400,
-      category: "Soap",
+      category: "Saabun",
       isPopular: true,
     },
     // Rice Products
@@ -80,7 +102,7 @@ function ProductList({ addToCart }) {
       description: "Premium quality basmati rice",
       package: "5kg Bag",
       price: 425,
-      category: "Rice",
+      category: "Chaaval",
       isPopular: true,
       companyName: "Reliance",
     },
@@ -91,7 +113,7 @@ function ProductList({ addToCart }) {
       description: "Premium quality basmati rice with long grains",
       package: "30kg Bag",
       price: 1350,
-      category: "Rice",
+      category: "Chaaval",
       isPopular: true,
     },
     {
@@ -101,7 +123,7 @@ function ProductList({ addToCart }) {
       description: "Golden sella basmati rice for perfect biryani",
       package: "30kg Bag",
       price: 1440,
-      category: "Rice",
+      category: "Chaaval",
       isPopular: true,
     },
     {
@@ -111,7 +133,7 @@ function ProductList({ addToCart }) {
       description: "Long-grain, aromatic, aged rice for perfect biryani",
       package: "30kg Bag",
       price: 1935,
-      category: "Rice",
+      category: "Chaaval",
     },
     {
       id: 10,
@@ -119,7 +141,7 @@ function ProductList({ addToCart }) {
       images: ["./PremiumDumBriyani.png"],
       description: "Long grains, aromatic fragrance, fluffy texture",
       package: "30kg",
-      category: "Rice",
+      category: "Chaaval",
       price: 2325,
     },
     {
@@ -128,7 +150,7 @@ function ProductList({ addToCart }) {
       images: ["Mohtarma1121XXLBriyaniSpecialBasmatiRice.png"],
       description: "Extra-long, aromatic grains for rich biryanis",
       package: "30kg",
-      category: "Rice",
+      category: "Chaaval",
       price: 2375,
     },
     // Mustard Oil Products
@@ -139,7 +161,7 @@ function ProductList({ addToCart }) {
       description: "Pure cold-pressed mustard oil",
       package: "12X1L Bottle",
       price: 1812,
-      category: "Mustard-Oil",
+      category: "Sarason-Tel",
       isPopular: true,
     },
     {
@@ -149,7 +171,7 @@ function ProductList({ addToCart }) {
       description: "Pure cold-pressed mustard oil",
       package: "12X1L Packet",
       price: 1776,
-      category: "Mustard-Oil",
+      category: "Sarason-Tel",
       isPopular: true,
     },
     {
@@ -159,7 +181,7 @@ function ProductList({ addToCart }) {
       description: "Pure refined soybean oil for cooking",
       package: "12X1L Bottle",
       price: 1716,
-      category: "Mustard-Oil",
+      category: "Sarason-Tel",
       isPopular: true,
     },
     {
@@ -169,7 +191,7 @@ function ProductList({ addToCart }) {
       description: "Pure refined soybean oil for cooking",
       package: "12X1L Packet",
       price: 1680,
-      category: "Mustard-Oil",
+      category: "Sarason-Tel",
       isPopular: true,
     },
     {
@@ -179,7 +201,7 @@ function ProductList({ addToCart }) {
       description: "Pure cold-pressed mustard oil",
       package: "4X5L Jar",
       price: 3020,
-      category: "Mustard-Oil",
+      category: "Sarason-Tel",
       isPopular: true,
     },
     {
@@ -189,7 +211,27 @@ function ProductList({ addToCart }) {
       description: "Pure refined soybean oil for cooking",
       package: "4X5L Jar",
       price: 2800,
-      category: "Mustard-Oil",
+      category: "Sarason-Tel",
+      isPopular: true,
+    },
+    {
+      id: 29,
+      name: "Kachi Ghani Mustard Oil Jar",
+      images: ["./KachiGhaniAndMustardOil15kg3.jpg"],
+      description: "Pure cold-pressed mustard oil",
+      package: "15L Jar",
+      price: 0,
+      category: "Sarason-Tel",
+      isPopular: true,
+    },
+    {
+      id: 30,
+      name: "Refined Soybean Oil Jar",
+      images: ["./RefinedSoybeanOil5Kg.jpg"],
+      description: "Pure refined soybean oil for cooking",
+      package: "15L Jar",
+      price: 0,
+      category: "Sarason-Tel",
       isPopular: true,
     },
     // Salt Products
@@ -200,8 +242,99 @@ function ProductList({ addToCart }) {
       description: "Refined iodized salt for daily cooking",
       package: "25kg Bag",
       price: 185,
-      category: "Salt",
+      category: "Namak",
       isPopular: true,
+    },
+    // New Agarbatti Products
+    {
+      id: 20,
+      name: "Avida Agarbatti",
+      images: ["./AvidaImg.png"],
+      description: "Premium quality sandalwood incense sticks",
+      package: "20 Sticks per Pack",
+      price: 85,
+      category: "Agarbatti",
+      isPopular: true,
+      companyName: "Shalimar",
+    },
+    {
+      id: 21,
+      name: "6InOne Agarbatti",
+      images: ["./6inOneImg.png"],
+      description: "Soothing rose scented incense sticks",
+      package: "300gm",
+      price: 250,
+      category: "Agarbatti",
+      isPopular: false,
+      companyName: "Shalimar",
+    },
+    {
+      id: 26,
+      name: "Utsav Agarbatti",
+      images: ["./UtsavImg.png"],
+      description: "Soothing rose scented incense sticks",
+      package: "400g",
+      price: 240,
+      category: "Agarbatti",
+      isPopular: false,
+      companyName: "Shalimar",
+    },
+    {
+      id: 27,
+      name: "Zipper Compo Agarbatti",
+      images: ["./Zipper6inOne.png"],
+      description: "Soothing rose scented incense sticks",
+      package: "100g",
+      price: 240,
+      category: "Agarbatti",
+      isPopular: false,
+      companyName: "Shalimar",
+    },
+    // New Daal Products
+    {
+      id: 22,
+      name: "Arhar Daal",
+      images: ["./ArharDaalImg.jpg"],
+      description: "Premium quality split pigeon peas",
+      package: "50kg Bag",
+      price: 0,
+      category: "Daal",
+      isPopular: true,
+      companyName: "Tata Sampann",
+    },
+    {
+      id: 23,
+      name: "Moong Daal",
+      images: ["./MoongDaalImg.jpg"],
+      description: "Premium quality yellow split mung beans",
+      package: "50kg Bag",
+      price: 0,
+      category: "Daal",
+      isPopular: false,
+      companyName: "Tata Sampann",
+    },
+    {
+      id: 24,
+      name: "Urad Daal",
+      images: ["./UradDaalImg.jpg"],
+      description: "High quality split black gram",
+      package: "50kg Bag",
+      price: 0,
+      category: "Daal",
+      isPopular: true,
+      companyName: "Tata Sampann",
+    },
+    // New Cheenee (Sugar) Products
+    {
+      id: 25,
+      name: "Premium White Cheenee",
+      images: ["./CheeneeImg.jpg"],
+      description: "Fine grain white sugar for cooking and baking",
+      package: "50kg Bag",
+      price: 0,
+      category: "Cheenee",
+      isPopular: true,
+      companyName: "Tata Sampann",
     },
   ];
 
@@ -210,7 +343,17 @@ function ProductList({ addToCart }) {
     searchTerm: "",
   });
 
-  const categories = ["all", "popular", "Soap", "Rice", "Mustard-Oil", "Salt"];
+  const categories = [
+    "all",
+    "popular",
+    "Saabun",
+    "Chaaval",
+    "Sarason-Tel",
+    "Namak",
+    "Agarbatti",
+    "Daal",
+    "Cheenee",
+  ];
 
   const filteredProducts = products.filter((product) => {
     const categoryMatch =
@@ -229,7 +372,7 @@ function ProductList({ addToCart }) {
   });
 
   return (
-    <div className="container mx-auto px-4 py-12" id="products">
+    <div className="container mx-auto -mt-10" id="products">
       <ToastContainer
         position="bottom-right"
         autoClose={3000}

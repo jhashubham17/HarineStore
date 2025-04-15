@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { X, ShoppingBag, Trash2, Plus, Minus } from "lucide-react";
+import {
+  X,
+  ShoppingBag,
+  Trash2,
+  Plus,
+  Minus,
+  Truck,
+  Check,
+} from "lucide-react";
 import CheckoutForm from "./CheckoutForm";
 
 function Cart({ cartItems, closeCart, removeItem, updateQuantity, clearCart }) {
@@ -27,10 +35,7 @@ function Cart({ cartItems, closeCart, removeItem, updateQuantity, clearCart }) {
         productMessage += `   Package: ${item.package}\n`;
 
         if (item.category === "Soap") {
-          // Always include size information for soaps
           productMessage += `   Size: ${item.selectedSize || item.Size}\n`;
-
-          // Only include color if it was selected
           if (item.selectedColor) {
             productMessage += `   Color: ${item.selectedColor}\n`;
           }
@@ -69,11 +74,20 @@ Total Order Amount: ₹${totalAmount}`;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex justify-end backdrop-blur-sm transition-all duration-300">
-      <div className="bg-white w-full max-w-md h-full overflow-y-auto shadow-xl animate-slide-in">
+      <div className="bg-white w-full max-w-md h-full overflow-y-auto shadow-xl animate-slide-in flex flex-col">
+        {/* Header with logo and close button */}
         <div className="p-5 border-b sticky top-0 bg-white z-10 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <ShoppingBag className="text-green-600" size={20} />
-            <h2 className="text-xl font-bold">Your Cart</h2>
+          <div className="flex items-center gap-3">
+            <div className="bg-green-600 text-white p-2 rounded-lg">
+              <ShoppingBag size={24} />
+            </div>
+            <div>
+              <h2 className="text-xl font-bold text-gray-800">Your Cart</h2>
+              <div className="flex items-center gap-1 text-xs text-green-600">
+                <Truck size={14} />
+                <span>Free delivery on orders over ₹500</span>
+              </div>
+            </div>
           </div>
           <button
             onClick={closeCart}
@@ -84,30 +98,67 @@ Total Order Amount: ₹${totalAmount}`;
         </div>
 
         {cartItems.length === 0 ? (
-          <div className="p-12 text-center flex flex-col items-center justify-center h-64">
-            <ShoppingBag size={64} className="text-gray-300 mb-4" />
-            <p className="text-gray-500 font-medium">Your cart is empty</p>
+          <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
+            <div className="bg-gray-100 p-6 rounded-full mb-4">
+              <ShoppingBag size={48} className="text-gray-400" />
+            </div>
+            <h3 className="text-xl font-medium text-gray-700 mb-2">
+              Your cart is empty
+            </h3>
+            <p className="text-gray-500 mb-6">
+              Looks like you haven't added anything to your cart yet
+            </p>
             <button
               onClick={closeCart}
-              className="mt-4 text-green-600 font-medium hover:text-green-700 transition-colors"
+              className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium"
             >
               Continue Shopping
             </button>
           </div>
         ) : (
           <>
-            <div className="divide-y">
+            <div className="flex-1 divide-y overflow-y-auto">
+              {/* Free delivery progress bar */}
+              {calculateTotal() < 500 && (
+                <div className="p-4 bg-green-50 border-b">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Truck size={18} className="text-green-600" />
+                    <span className="text-sm font-medium text-green-700">
+                      {500 - calculateTotal() > 0 ? (
+                        <>
+                          Add ₹{(500 - calculateTotal()).toFixed(2)} more for
+                          free delivery
+                        </>
+                      ) : (
+                        <>You qualify for free delivery!</>
+                      )}
+                    </span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div
+                      className="bg-green-600 h-2 rounded-full"
+                      style={{
+                        width: `${Math.min(
+                          (calculateTotal() / 500) * 100,
+                          100
+                        )}%`,
+                      }}
+                    ></div>
+                  </div>
+                </div>
+              )}
+
               {cartItems.map((item) => (
                 <div
                   key={item.cartItemId}
                   className="p-4 hover:bg-gray-50 transition-colors"
                 >
                   <div className="flex items-start">
-                    <div className="flex-none w-20 h-20 rounded-lg overflow-hidden border border-gray-200">
+                    <div className="flex-none w-20 h-20 rounded-lg overflow-hidden border border-gray-200 bg-white flex items-center justify-center">
                       <img
                         src={item.image}
                         alt={item.name}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-contain p-1"
                       />
                     </div>
                     <div className="ml-4 flex-1">
@@ -129,30 +180,26 @@ Total Order Amount: ₹${totalAmount}`;
                         </button>
                       </div>
 
-                      <div className="text-sm text-gray-600 mt-1">
+                      <div className="mt-1">
                         {item.package && (
-                          <span className="bg-gray-100 px-2 py-1 rounded-full text-xs">
+                          <span className="inline-block bg-gray-100 px-2 py-1 rounded-full text-xs text-gray-600 mb-1">
                             {item.package}
                           </span>
                         )}
                         {item.category === "Soap" && (
-                          <div className="flex gap-2 mt-1">
+                          <div className="flex gap-1 flex-wrap">
                             {item.selectedSize && (
-                              <span className="bg-gray-100 px-2 py-1 rounded-full text-xs">
+                              <span className="bg-gray-100 px-2 py-1 rounded-full text-xs text-gray-600">
                                 Size: {item.selectedSize}
                               </span>
                             )}
                             {item.selectedColor && (
-                              <span className="bg-gray-100 px-2 py-1 rounded-full text-xs">
+                              <span className="bg-gray-100 px-2 py-1 rounded-full text-xs text-gray-600">
                                 Color: {item.selectedColor}
                               </span>
                             )}
                           </div>
                         )}
-                        <p className="font-semibold mt-2 text-gray-700">
-                          ₹{item.price}{" "}
-                          {item.category === "Soap" ? "each" : "per unit"}
-                        </p>
                       </div>
 
                       <div className="flex items-center mt-3 justify-between">
@@ -161,7 +208,12 @@ Total Order Amount: ₹${totalAmount}`;
                             onClick={() =>
                               updateQuantity(item.cartItemId, item.quantity - 1)
                             }
-                            className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                            disabled={item.quantity <= 1}
+                            className={`w-8 h-8 flex items-center justify-center transition-colors ${
+                              item.quantity <= 1
+                                ? "text-gray-300 cursor-not-allowed"
+                                : "hover:bg-gray-100 text-gray-600"
+                            }`}
                             aria-label="Decrease quantity"
                           >
                             <Minus size={14} />
@@ -173,7 +225,7 @@ Total Order Amount: ₹${totalAmount}`;
                             onClick={() =>
                               updateQuantity(item.cartItemId, item.quantity + 1)
                             }
-                            className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                            className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-600"
                             aria-label="Increase quantity"
                           >
                             <Plus size={14} />
@@ -190,25 +242,57 @@ Total Order Amount: ₹${totalAmount}`;
             </div>
 
             <div className="sticky bottom-0 bg-white border-t p-5 mt-auto shadow-lg">
-              <div className="flex justify-between mb-4">
-                <span className="text-gray-600">Subtotal:</span>
-                <span className="font-medium">
-                  ₹{calculateTotal().toFixed(2)}
-                </span>
+              {/* Order summary */}
+              <div className="space-y-3 mb-4">
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Subtotal:</span>
+                  <span className="font-medium">
+                    ₹{calculateTotal().toFixed(2)}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Delivery:</span>
+                  <span className="font-medium">
+                    {calculateTotal() >= 500 ? (
+                      <span className="text-green-600 flex items-center gap-1">
+                        <Check size={14} /> Free
+                      </span>
+                    ) : (
+                      "₹50.00"
+                    )}
+                  </span>
+                </div>
               </div>
-              <div className="flex justify-between mb-6">
+
+              {/* Total with emphasized design */}
+              <div className="flex justify-between items-center mb-6 py-3 border-y border-gray-100">
                 <span className="font-semibold text-lg">Total:</span>
-                <span className="font-bold text-green-600 text-lg">
-                  ₹{calculateTotal().toFixed(2)}
+                <span className="font-bold text-green-600 text-xl">
+                  ₹
+                  {(
+                    calculateTotal() + (calculateTotal() >= 500 ? 0 : 50)
+                  ).toFixed(2)}
                 </span>
               </div>
+
+              {/* Checkout button with conditional free delivery message */}
               <button
                 onClick={initiateCheckout}
-                className="w-full bg-green-600 text-white py-3 rounded-lg font-medium hover:bg-green-700 transition-all duration-300 shadow flex items-center justify-center gap-2"
+                className="w-full bg-green-600 text-white py-3 rounded-lg font-medium hover:bg-green-700 transition-all duration-300 shadow-md flex items-center justify-center gap-2 relative overflow-hidden"
               >
-                <ShoppingBag size={18} />
-                Checkout
+                <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-green-700 opacity-0 hover:opacity-100 transition-opacity"></div>
+                <span className="relative z-10 flex items-center gap-2">
+                  <ShoppingBag size={18} />
+                  Proceed to Checkout
+                </span>
               </button>
+
+              {calculateTotal() < 500 && (
+                <div className="mt-3 text-center text-sm text-gray-500">
+                  Add ₹{(500 - calculateTotal()).toFixed(2)} more to get free
+                  delivery
+                </div>
+              )}
             </div>
           </>
         )}
