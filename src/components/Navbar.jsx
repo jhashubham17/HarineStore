@@ -16,7 +16,8 @@ function Navbar({ cartItems, toggleCart }) {
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         {/* Left: Logo and store name */}
         <div className="flex items-center space-x-2">
-          <h1 className="text-lg font-bold">Sujal General Store</h1>
+          <img src="./logo.png" alt="logo" className=" h-10 w-10" />
+          <h1 className="text-lg font-bold">SJ General Store</h1>
         </div>
 
         {/* Right: Cart button */}

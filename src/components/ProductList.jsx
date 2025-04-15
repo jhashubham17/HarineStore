@@ -1,157 +1,99 @@
 import React, { useState } from "react";
 import ProductCard from "./ProductCard";
-import { Search, X, Star } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function ProductList({ addToCart }) {
   const products = [
-    // Popular Products (marked with isPopular: true)
+    // Soap Products
     {
       id: 1,
       name: "300gm×20pcs",
-      images: ["./300gmX20Cartoon.jpg", "./300gmSoap.jpg"],
+      images: ["./300gmX20Cartoon.jpg"],
       description: "Clothing washing soap with essential oils",
       Size: "300×20",
       package: "20 Pieces",
       price: 410,
       category: "Saabun",
-      isPopular: true,
+      available: true,
     },
     {
       id: 2,
       name: "270gm×20pcs",
-      images: ["./270gmX20Cartoon.jpg", "./270gmSoap.jpg"],
+      images: ["./270X20SoapImg.jpg"],
       description: "Clothing washing soap with essential oils",
       Size: "270×20",
       package: "20 Pieces",
       price: 370,
       category: "Saabun",
-      isPopular: true,
+      available: true,
     },
     {
       id: 3,
       name: "250gm×20pcs",
-      images: ["./250gmX20Cartoon.jpg", "./250gmSoap.jpg"],
+      images: ["./250X20SoapImg.jpg"],
       description: "Clothing washing soap with essential oils",
       Size: "250×20",
       package: "20 Pieces",
       price: 335,
       category: "Saabun",
-      isPopular: true,
+      available: true,
     },
     {
       id: 4,
       name: "225gm×20pcs",
-      images: ["./225gmX20Cartoon.jpg", "./225gmSoap.jpg"],
+      images: ["./225gmX20Cartoon.jpg"],
       description: "Clothing washing soap with essential oils",
       Size: "225×20",
       package: "20 Pieces",
       price: 300,
       category: "Saabun",
-      isPopular: true,
+      available: true,
     },
     {
       id: 5,
       name: "190gm×20pcs",
-      images: ["./190gmX20Cartoon.jpg", "./190gmSoap.jpg"],
+      images: ["./190X20SoapImg.jpg"],
       description: "Clothing washing soap with essential oils",
       Size: "190×20",
       package: "20 Pieces",
       price: 270,
       category: "Saabun",
+      available: true,
     },
     {
       id: 33,
       name: "150gm×50pcs",
-      images: ["./120gmX20Cartoon.jpg"],
+      images: ["./150X20SoapImg.jpg"],
       description: "Clothing washing soap with essential oils",
       Size: "150×50",
       package: "50 Pieces",
       price: 0,
       category: "Saabun",
-      isPopular: true,
+      available: true,
     },
     {
       id: 32,
       name: "140gm×50pcs",
-      images: ["./120gmX20Cartoon.jpg"],
+      images: ["./140X20SoapImg.jpg"],
       description: "Clothing washing soap with essential oils",
       Size: "140×50",
       package: "50 Pieces",
       price: 0,
       category: "Saabun",
-      isPopular: true,
+      available: true,
     },
     {
       id: 6,
       name: "120gm×50pcs",
-      images: ["./120gmX20Cartoon.jpg", "./120gmSoap.jpg"],
+      images: ["./120X50SoapImg.jpg"],
       description: "Clothing washing soap with essential oils",
       Size: "120×50",
       package: "50 Pieces",
       price: 400,
       category: "Saabun",
-      isPopular: true,
-    },
-    // Rice Products
-    {
-      id: 19,
-      name: "Tibar Basmati Rice",
-      images: ["./IndependentTibar5kgRice.jpg"],
-      description: "Premium quality basmati rice",
-      package: "5kg Bag",
-      price: 425,
-      category: "Chaaval",
-      isPopular: true,
-      companyName: "Reliance",
-    },
-    {
-      id: 7,
-      name: "Dubar Basmati Rice",
-      images: ["./DubarSellaBasmatiRice.png"],
-      description: "Premium quality basmati rice with long grains",
-      package: "30kg Bag",
-      price: 1350,
-      category: "Chaaval",
-      isPopular: true,
-    },
-    {
-      id: 8,
-      name: "Tibar Sella Rice",
-      images: ["./TibarSellaBasmatiRice.png"],
-      description: "Golden sella basmati rice for perfect biryani",
-      package: "30kg Bag",
-      price: 1440,
-      category: "Chaaval",
-      isPopular: true,
-    },
-    {
-      id: 9,
-      name: "Select Biryani Rice",
-      images: ["./SelectBiryaniWhiteSella.png"],
-      description: "Long-grain, aromatic, aged rice for perfect biryani",
-      package: "30kg Bag",
-      price: 1935,
-      category: "Chaaval",
-    },
-    {
-      id: 10,
-      name: "Dum Briyani Basmati Rice",
-      images: ["./PremiumDumBriyani.png"],
-      description: "Long grains, aromatic fragrance, fluffy texture",
-      package: "30kg",
-      category: "Chaaval",
-      price: 2325,
-    },
-    {
-      id: 11,
-      name: "Mohtarma Biryani Basmati Rice",
-      images: ["Mohtarma1121XXLBriyaniSpecialBasmatiRice.png"],
-      description: "Extra-long, aromatic grains for rich biryanis",
-      package: "30kg",
-      category: "Chaaval",
-      price: 2375,
+      available: true,
     },
     // Mustard Oil Products
     {
@@ -162,7 +104,7 @@ function ProductList({ addToCart }) {
       package: "12X1L Bottle",
       price: 1812,
       category: "Sarason-Tel",
-      isPopular: true,
+      available: true,
     },
     {
       id: 13,
@@ -172,7 +114,7 @@ function ProductList({ addToCart }) {
       package: "12X1L Packet",
       price: 1776,
       category: "Sarason-Tel",
-      isPopular: true,
+      available: true,
     },
     {
       id: 14,
@@ -182,7 +124,7 @@ function ProductList({ addToCart }) {
       package: "12X1L Bottle",
       price: 1716,
       category: "Sarason-Tel",
-      isPopular: true,
+      available: true,
     },
     {
       id: 15,
@@ -192,7 +134,7 @@ function ProductList({ addToCart }) {
       package: "12X1L Packet",
       price: 1680,
       category: "Sarason-Tel",
-      isPopular: true,
+      available: true,
     },
     {
       id: 16,
@@ -202,7 +144,7 @@ function ProductList({ addToCart }) {
       package: "4X5L Jar",
       price: 3020,
       category: "Sarason-Tel",
-      isPopular: true,
+      available: true,
     },
     {
       id: 17,
@@ -212,27 +154,135 @@ function ProductList({ addToCart }) {
       package: "4X5L Jar",
       price: 2800,
       category: "Sarason-Tel",
-      isPopular: true,
+      available: true,
     },
     {
       id: 29,
       name: "Kachi Ghani Mustard Oil Jar",
-      images: ["./KachiGhaniAndMustardOil15kg3.jpg"],
+      images: ["./RefinedSoybeanOil15kgImg.jpg"],
       description: "Pure cold-pressed mustard oil",
       package: "15L Jar",
       price: 0,
       category: "Sarason-Tel",
-      isPopular: true,
+      available: false,
     },
     {
       id: 30,
       name: "Refined Soybean Oil Jar",
-      images: ["./RefinedSoybeanOil5Kg.jpg"],
+      images: ["./KachiGhaniMustard15kgImg.jpg"],
       description: "Pure refined soybean oil for cooking",
       package: "15L Jar",
       price: 0,
       category: "Sarason-Tel",
-      isPopular: true,
+      available: false,
+    },
+    // Rice Products
+    {
+      id: 19,
+      name: "Tibar Basmati Rice",
+      images: ["./IndependentTibar5kgRice.jpg"],
+      description: "Premium quality basmati rice",
+      package: "5kg Bag",
+      price: 425,
+      category: "Chaaval",
+      companyName: "Reliance",
+      available: true,
+    },
+    {
+      id: 7,
+      name: "Dubar Basmati Rice",
+      images: ["./DubarSellaBasmatiRice.png"],
+      description: "Premium quality basmati rice with long grains",
+      package: "30kg Bag",
+      price: 1350,
+      category: "Chaaval",
+      available: false,
+    },
+    {
+      id: 8,
+      name: "Tibar Sella Rice",
+      images: ["./TibarSellaBasmatiRice.png"],
+      description: "Golden sella basmati rice for perfect biryani",
+      package: "30kg Bag",
+      price: 1440,
+      category: "Chaaval",
+      available: true,
+    },
+    {
+      id: 9,
+      name: "Select Biryani Rice",
+      images: ["./SelectBiryaniWhiteSella.png"],
+      description: "Long-grain, aromatic, aged rice for perfect biryani",
+      package: "30kg Bag",
+      price: 1935,
+      category: "Chaaval",
+      available: true,
+    },
+    {
+      id: 10,
+      name: "Dum Briyani Basmati Rice",
+      images: ["./PremiumDumBriyani.png"],
+      description: "Long grains, aromatic fragrance, fluffy texture",
+      package: "30kg",
+      category: "Chaaval",
+      price: 2325,
+      available: true,
+    },
+    {
+      id: 11,
+      name: "Mohtarma Biryani Basmati Rice",
+      images: ["Mohtarma1121XXLBriyaniSpecialBasmatiRice.png"],
+      description: "Extra-long, aromatic grains for rich biryanis",
+      package: "30kg",
+      category: "Chaaval",
+      price: 2375,
+      available: true,
+    },
+
+    // Agarbatti Products
+    {
+      id: 20,
+      name: "Avida Agarbatti",
+      images: ["./AvidaImg.png"],
+      description: "Premium quality sandalwood incense sticks",
+      package: "20 Sticks per Pack",
+      price: 85,
+      category: "Agarbatti",
+      companyName: "Shalimar",
+      available: true,
+    },
+    {
+      id: 21,
+      name: "6InOne Agarbatti",
+      images: ["./6inOneImg.png"],
+      description: "Soothing rose scented incense sticks",
+      package: "300gm",
+      price: 250,
+      category: "Agarbatti",
+      companyName: "Shalimar",
+      available: true,
+    },
+    {
+      id: 26,
+      name: "Utsav Agarbatti",
+      images: ["./UtsavImg.png"],
+      description: "Soothing rose scented incense sticks",
+      package: "400g",
+      price: 240,
+      category: "Agarbatti",
+      companyName: "Shalimar",
+      available: true,
+    },
+    {
+      id: 27,
+      name: "Zipper Compo Agarbatti",
+      images: ["./Zipper6inOne.png"],
+      description: "Soothing rose scented incense sticks",
+      package: "300g",
+      price: 240,
+      category: "Agarbatti",
+      companyName: "Shalimar",
+      available: true,
     },
     // Salt Products
     {
@@ -243,54 +293,9 @@ function ProductList({ addToCart }) {
       package: "25kg Bag",
       price: 185,
       category: "Namak",
-      isPopular: true,
+      available: true,
     },
-    // New Agarbatti Products
-    {
-      id: 20,
-      name: "Avida Agarbatti",
-      images: ["./AvidaImg.png"],
-      description: "Premium quality sandalwood incense sticks",
-      package: "20 Sticks per Pack",
-      price: 85,
-      category: "Agarbatti",
-      isPopular: true,
-      companyName: "Shalimar",
-    },
-    {
-      id: 21,
-      name: "6InOne Agarbatti",
-      images: ["./6inOneImg.png"],
-      description: "Soothing rose scented incense sticks",
-      package: "300gm",
-      price: 250,
-      category: "Agarbatti",
-      isPopular: false,
-      companyName: "Shalimar",
-    },
-    {
-      id: 26,
-      name: "Utsav Agarbatti",
-      images: ["./UtsavImg.png"],
-      description: "Soothing rose scented incense sticks",
-      package: "400g",
-      price: 240,
-      category: "Agarbatti",
-      isPopular: false,
-      companyName: "Shalimar",
-    },
-    {
-      id: 27,
-      name: "Zipper Compo Agarbatti",
-      images: ["./Zipper6inOne.png"],
-      description: "Soothing rose scented incense sticks",
-      package: "100g",
-      price: 240,
-      category: "Agarbatti",
-      isPopular: false,
-      companyName: "Shalimar",
-    },
-    // New Daal Products
+    // Daal Products
     {
       id: 22,
       name: "Arhar Daal",
@@ -299,8 +304,8 @@ function ProductList({ addToCart }) {
       package: "50kg Bag",
       price: 0,
       category: "Daal",
-      isPopular: true,
       companyName: "Tata Sampann",
+      available: false,
     },
     {
       id: 23,
@@ -310,8 +315,8 @@ function ProductList({ addToCart }) {
       package: "50kg Bag",
       price: 0,
       category: "Daal",
-      isPopular: false,
       companyName: "Tata Sampann",
+      available: false,
     },
     {
       id: 24,
@@ -321,10 +326,10 @@ function ProductList({ addToCart }) {
       package: "50kg Bag",
       price: 0,
       category: "Daal",
-      isPopular: true,
       companyName: "Tata Sampann",
+      available: false,
     },
-    // New Cheenee (Sugar) Products
+    // Sugar Products
     {
       id: 25,
       name: "Premium White Cheenee",
@@ -333,34 +338,31 @@ function ProductList({ addToCart }) {
       package: "50kg Bag",
       price: 0,
       category: "Cheenee",
-      isPopular: true,
       companyName: "Tata Sampann",
+      available: false,
     },
   ];
 
   const [filters, setFilters] = useState({
-    category: "popular",
+    category: "all",
     searchTerm: "",
   });
 
   const categories = [
     "all",
-    "popular",
     "Saabun",
-    "Chaaval",
     "Sarason-Tel",
-    "Namak",
     "Agarbatti",
+    "Chaaval",
+    "Namak",
     "Daal",
     "Cheenee",
   ];
 
   const filteredProducts = products.filter((product) => {
     const categoryMatch =
-      filters.category === "all" ||
-      (filters.category === "popular"
-        ? product.isPopular
-        : product.category === filters.category);
+      filters.category === "all" || product.category === filters.category;
+
     const searchMatch =
       filters.searchTerm === "" ||
       product.name.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
@@ -426,7 +428,6 @@ function ProductList({ addToCart }) {
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               }`}
             >
-              {category === "popular" && <Star size={16} className="mr-1" />}
               {category.split("-").join(" ")}
             </button>
           ))}
