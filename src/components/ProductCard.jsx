@@ -15,7 +15,6 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function ProductCard({ product, addToCart }) {
-  const [selectedColor, setSelectedColor] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [expanded, setExpanded] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
@@ -45,12 +44,6 @@ function ProductCard({ product, addToCart }) {
     return "Brand";
   };
 
-  const colorOptions = [
-    { name: "red", label: "Red", hex: "#EF4444" },
-    { name: "green", label: "Green", hex: "#10B981" },
-    { name: "yellow", label: "Yellow", hex: "#F59E0B" },
-  ];
-
   const handleNextImage = (e) => {
     if (e) e.stopPropagation();
     setCurrentImageIndex(
@@ -77,14 +70,13 @@ function ProductCard({ product, addToCart }) {
     document.body.style.overflow = "auto";
   };
 
+  const getCurrentImage = () => {
+    return product.images ? product.images[currentImageIndex] : product.image;
+  };
+
   const handleAddToCart = () => {
     if (!isAvailable) {
       toast.error("This product is currently out of stock");
-      return;
-    }
-
-    if (isSaabun && !selectedColor) {
-      toast.warning("Please select a color for soap products");
       return;
     }
 
@@ -92,24 +84,25 @@ function ProductCard({ product, addToCart }) {
 
     const cartItem = {
       ...product,
+      cartItemId: product.id || product.name,
       quantity,
-      selectedColor: isSaabun ? selectedColor : "",
       selectedSize: isSaabun ? product.Size : "",
       displayName: `${product.name}${isSaabun ? ` (${product.Size})` : ""}`,
       brand: getCompanyName(),
-      image: product.images ? product.images[0] : product.image,
+      image: getCurrentImage(),
     };
 
     setTimeout(() => {
       addToCart(cartItem);
       setIsAdding(false);
       setAdded(true);
-      toast.success(`${quantity} ${product.name} added to cart!`);
+
+      const successMessage = `${quantity} ${product.name} added to cart!`;
+      toast.success(successMessage);
 
       setTimeout(() => {
         setAdded(false);
         setQuantity(1);
-        setSelectedColor("");
       }, 2000);
     }, 500);
   };
@@ -121,10 +114,6 @@ function ProductCard({ product, addToCart }) {
     setTimeout(() => {
       setNotifyMe(false);
     }, 2000);
-  };
-
-  const getCurrentImage = () => {
-    return product.images ? product.images[currentImageIndex] : product.image;
   };
 
   return (
@@ -251,33 +240,6 @@ function ProductCard({ product, addToCart }) {
             </button>
           )}
 
-          {isAvailable && isSaabun && (
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Color
-              </label>
-              <div className="flex gap-3">
-                {colorOptions.map((color) => (
-                  <button
-                    key={color.name}
-                    onClick={() => setSelectedColor(color.name)}
-                    className={`w-9 h-9 rounded-full flex items-center justify-center transition-all border-2 ${
-                      selectedColor === color.name
-                        ? "border-blue-500 scale-110"
-                        : "border-transparent"
-                    }`}
-                    style={{ backgroundColor: color.hex }}
-                    aria-label={color.label}
-                  >
-                    {selectedColor === color.name && (
-                      <Check size={16} className="text-white" />
-                    )}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
           {isAvailable && (
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -370,7 +332,7 @@ function ProductCard({ product, addToCart }) {
                 className={`w-full py-3 rounded-full font-medium text-sm transition-all flex items-center justify-center gap-2 ${
                   notifyMe
                     ? "bg-blue-400 text-white"
-                    : "bg-blue-500 text-white Hover:bg-blue-600"
+                    : "bg-blue-500 text-white hover:bg-blue-600"
                 }`}
               >
                 {notifyMe ? (
@@ -408,7 +370,7 @@ function ProductCard({ product, addToCart }) {
               <img
                 src={getCurrentImage()}
                 alt={product.name}
-                className={`max-w-[90vw] max-h-[90vh] object-contain ${
+                className={`max-w-full max-h-full object-contain ${
                   !isAvailable && "opacity-80"
                 }`}
                 onClick={(e) => e.stopPropagation()}

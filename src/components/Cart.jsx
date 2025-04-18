@@ -34,11 +34,8 @@ function Cart({ cartItems, closeCart, removeItem, updateQuantity, clearCart }) {
         productMessage += `   Quantity: ${item.quantity}\n`;
         productMessage += `   Package: ${item.package}\n`;
 
-        if (item.category === "Soap") {
+        if (item.category === "Saabun") {
           productMessage += `   Size: ${item.selectedSize || item.Size}\n`;
-          if (item.selectedColor) {
-            productMessage += `   Color: ${item.selectedColor}\n`;
-          }
         }
 
         productMessage += `   Price: ₹${pricePerUnit}\n`;
@@ -165,7 +162,7 @@ Total Order Amount: ₹${totalAmount}`;
                       <div className="flex justify-between">
                         <h3 className="font-medium text-gray-800">
                           {item.name}
-                          {item.category === "Soap" && item.Size && (
+                          {item.category === "Saabun" && item.Size && (
                             <span className="ml-1 text-sm text-gray-600">
                               ({item.Size})
                             </span>
@@ -182,23 +179,14 @@ Total Order Amount: ₹${totalAmount}`;
 
                       <div className="mt-1">
                         {item.package && (
-                          <span className="inline-block bg-gray-100 px-2 py-1 rounded-full text-xs text-gray-600 mb-1">
+                          <span className="inline-block bg-gray-100 px-2 py-1 rounded-full text-xs text-gray-600 mb-1 mr-1">
                             {item.package}
                           </span>
                         )}
-                        {item.category === "Soap" && (
-                          <div className="flex gap-1 flex-wrap">
-                            {item.selectedSize && (
-                              <span className="bg-gray-100 px-2 py-1 rounded-full text-xs text-gray-600">
-                                Size: {item.selectedSize}
-                              </span>
-                            )}
-                            {item.selectedColor && (
-                              <span className="bg-gray-100 px-2 py-1 rounded-full text-xs text-gray-600">
-                                Color: {item.selectedColor}
-                              </span>
-                            )}
-                          </div>
+                        {item.category === "Saabun" && item.Size && (
+                          <span className="bg-gray-100 px-2 py-1 rounded-full text-xs text-gray-600">
+                            Size: {item.Size}
+                          </span>
                         )}
                       </div>
 
@@ -304,6 +292,11 @@ Total Order Amount: ₹${totalAmount}`;
           completeOrder={completeOrder}
           cartItems={cartItems}
           totalAmount={calculateTotal()}
+          deliveryFee={calculateTotal() >= 500 ? 0 : 50}
+          finalTotal={calculateTotal() + (calculateTotal() >= 500 ? 0 : 50)}
+          hasQualifiedForFreeDelivery={calculateTotal() >= 500}
+          amountToFreeDelivery={Math.max(500 - calculateTotal(), 0)}
+          freeDeliveryThreshold={500}
         />
       )}
     </div>
